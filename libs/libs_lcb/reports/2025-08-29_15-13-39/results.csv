@@ -1,0 +1,15 @@
+case_id,comment,screen_on,brightness,digital,logo,rim_state,rdygo,turn_left,turn_right,ring,recv_timeout,delay_after,send_ok,read_ok,recv_hex,read_hex,parse_send,parse_read,verdict,checks,elapsed_s,timestamp
+1,nan,1,5,50,1,0,1,1,1,0,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.198,2025-08-29 15:13:40
+2,nan,1,6,50,1,1,1,1,0,0,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.26,2025-08-29 15:13:40
+3,nan,1,6,50,2,2,2,1,2,0,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.25,2025-08-29 15:13:40
+4,nan,1,6,100,0,1,2,1,0,2,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.297,2025-08-29 15:13:40
+5,nan,1,6,100,1,0,2,0,0,2,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.275,2025-08-29 15:13:41
+6,nan,1,6,100,2,0,2,2,0,2,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.279,2025-08-29 15:13:41
+7,nan,1,7,50,0,0,1,2,0,2,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.245,2025-08-29 15:13:41
+8,nan,1,7,50,0,1,1,1,1,1,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.269,2025-08-29 15:13:41
+9,nan,1,7,50,1,1,2,0,0,1,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.254,2025-08-29 15:13:42
+10,nan,1,7,50,2,0,1,0,1,0,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.259,2025-08-29 15:13:42
+11,nan,1,7,100,1,0,1,0,2,2,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.257,2025-08-29 15:13:42
+12,nan,1,7,100,1,0,2,1,0,0,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.248,2025-08-29 15:13:43
+13,nan,1,7,100,1,0,2,1,0,2,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.263,2025-08-29 15:13:43
+14,nan,1,7,100,1,2,1,1,0,2,nan,nan,FAIL,FAIL,,,,,FAIL,{},0.266,2025-08-29 15:13:43

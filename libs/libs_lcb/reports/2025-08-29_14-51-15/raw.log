@@ -1,0 +1,3 @@
+[2025-08-29 14:51:15.337] [INFO] 初始化 BLE 协议通信...
+[2025-08-29 14:51:15.362] [ERROR] 读取用例失败: cannot access local variable 'df' where it is not associated with a value
+[2025-08-29 14:51:15.371] [DEBUG] 串口已关闭

@@ -1,0 +1,2 @@
+id,comment,screen_on,brightness,digital,logo,rim_state,rdygo,turn_left,turn_right,ring,expect_screen_on,expect_brightness,expect_logo,expect_ring
+1,最小点亮测试,1,7,0,1,0,0,0,0,1,1,7,1,1

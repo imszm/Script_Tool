@@ -1,0 +1,35 @@
+[22:05:33.048954] --->
+[32m[I/voice] voice_msg num: 14[0m
+[32m[I/gkey] acc_cb, key_evt: 0[0m
+[32m[I/pms] pm_thread, recved: 0x4[0m
+[32m[I/pms] pm_event, event: 0x4[0m
+[32m[I/pms] pm_acc_tim, enter...[0m
+[32m[I/pms] pm_acc_tim, release...[0m
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:05:39.051562] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/pms] pm_task_unlock...[0m
+
+[22:05:44.054248] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:05:50.056924] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:05:55.061315] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:06:01.063745] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:06:06.065732] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:06:12.067994] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+

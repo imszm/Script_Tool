@@ -1,0 +1,811 @@
+[22:35:11.590162] --->
+[31m[E/at.clnt] wait AT client(usart1) connect timeout(10000 tick).[0m
+[32m[I/at.dev.ec200x] ec200x device initialize retry 1...[0m
+[32m[I/voice] voice_msg num: 14[0m
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:35:36.592597] --->
+[32m[I/voice] voice_msg num: 14[0m
+[31m[E/at.clnt] wait AT client(usart1) connect timeout(10000 tick).[0m
+[32m[I/at.dev.ec200x] ec200x device initialize retry 0...[0m
+[32m[I/jmiot] net_status callback, type: 5[0m
+[31m[E/at.dev.ec200x] ec200x device network initialize failed(-117).[0m
+[32m[I/voice] voice_msg num: 14[0m
+[32m[I/voice] voice_msg num: 14[0m
+
+[22:35:40.076472] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:36:05.079469] --->
+[32m[I/voice] voice_msg num: 14[0m
+[32m[I/gkey] acc_cb, key_evt: 0[0m
+[32m[I/pms] pm_thread, recved: 0x4[0m
+[32m[I/pms] pm_event, event: 0x4[0m
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/pms] pm_acc_tim, enter...[0m
+[32m[I/pms] pm_acc_tim, release...[0m
+[32m[I/pms] pm_task_unlock...[0m
+
+[22:36:08.250519] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:36:33.253310] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:36:36.884798] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:37:01.887180] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:37:06.266795] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:37:31.269969] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:37:36.060515] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:38:01.063408] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:38:04.285531] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:38:29.288576] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:38:33.871197] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:38:58.874102] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:39:03.153023] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:39:28.155679] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:39:31.567592] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:39:56.570670] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:40:00.513136] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:40:25.516278] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:40:30.025609] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:40:55.028256] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:40:58.330233] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:41:23.333199] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:41:27.092944] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:41:52.095921] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:41:56.840935] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:42:21.843998] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:42:26.057502] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:42:51.060126] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:42:55.337873] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:43:20.341243] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:43:24.670169] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:43:49.672606] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:43:53.510352] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:44:18.513809] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:44:21.848002] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:44:46.849779] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:44:51.193515] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:45:16.196478] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:45:19.458606] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:45:44.460987] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:45:48.905578] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:46:13.908322] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:46:18.269361] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:46:43.272330] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:46:48.226945] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:47:13.229851] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:47:18.197334] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:47:43.200648] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:47:46.689574] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:48:11.692337] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:48:15.263720] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:48:40.266393] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:48:45.118224] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:49:10.121342] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:49:13.227966] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:49:38.231205] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:49:42.906239] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:50:07.908600] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:50:12.644496] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:50:37.647003] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:50:42.310575] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:51:07.313046] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:51:12.178217] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:51:37.180199] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:51:40.453240] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:52:05.456723] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:52:08.525968] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:52:33.528133] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:52:37.409192] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:53:02.412456] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:53:06.696853] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:53:31.699869] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:53:35.466902] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:54:00.469773] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:54:04.277962] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:54:29.280980] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:54:33.238343] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:54:58.241550] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:55:02.287882] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:55:27.291131] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:55:30.759806] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:55:55.762526] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:56:00.720296] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:56:25.722786] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:56:29.743638] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:56:54.746140] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:56:58.954468] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:57:23.957417] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:57:28.381522] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:57:53.384401] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:57:57.913457] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:58:22.916216] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:58:27.275894] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:58:52.278250] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:58:56.394831] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:59:21.398108] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:59:25.728320] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[22:59:50.731761] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[22:59:55.374084] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:00:20.377441] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:00:23.912794] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:00:48.915474] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:00:53.371115] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:01:18.374297] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:01:21.711028] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:01:46.714121] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:01:50.691113] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:02:15.694320] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:02:20.643386] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:02:45.646026] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:02:49.044326] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:03:14.047021] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:03:18.465543] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:03:43.468104] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:03:47.185185] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:04:12.188105] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:04:15.698956] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:04:40.701631] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:04:43.856168] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:05:08.858675] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:05:13.229326] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:05:38.231251] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:05:42.823189] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:06:07.826624] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:06:10.941872] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:06:35.943863] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:06:40.313169] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:07:05.315952] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:07:09.666525] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:07:34.668644] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:07:37.674040] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:08:02.676841] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:08:06.464834] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:08:31.467817] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:08:35.762956] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:09:00.766092] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:09:05.194096] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:09:30.196692] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:09:33.662150] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:09:58.664697] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:10:01.753288] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:10:26.756149] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:10:30.665888] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:10:55.667597] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:10:59.693725] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:11:24.696641] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:11:29.345995] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:11:54.348664] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:11:57.834240] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:12:22.837544] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:12:27.385161] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:12:52.388251] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:12:56.854016] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:13:21.857053] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:13:26.694407] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:13:51.697473] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:13:55.393432] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:14:20.396263] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:14:25.010561] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:14:50.013134] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:14:53.795189] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:15:18.798004] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:15:22.440731] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:15:47.444569] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:15:50.996763] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:16:15.999061] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:16:19.535458] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:16:44.537998] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:16:47.775451] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:17:12.778140] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:17:17.348679] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:17:42.351641] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:17:47.064980] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:18:12.068249] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:18:16.929286] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:18:41.932148] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:18:46.404558] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:19:11.407001] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:19:14.575282] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:19:39.578080] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:19:42.632389] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:20:07.635386] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:20:11.965766] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:20:36.967440] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:20:41.350596] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:21:06.353299] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:21:10.309007] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:21:35.312436] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:21:38.404741] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:22:03.408276] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:22:07.494497] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:22:32.497970] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:22:36.019303] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:23:01.022197] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:23:05.100511] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:23:30.102937] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:23:34.038804] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:23:59.041361] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:24:02.706952] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:24:27.709907] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:24:31.580029] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:24:56.582663] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:25:00.139826] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:25:25.143989] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:25:28.670957] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:25:53.673658] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:25:58.142705] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:26:23.144694] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:26:26.885546] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:26:51.888454] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:26:54.941557] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:27:19.944726] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:27:24.799769] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:27:49.802826] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:27:53.111685] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:28:18.113881] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:28:22.083196] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:28:47.085879] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
+[23:28:51.521624] --->
+[32m[I/voice] voice_msg num: 9[0m
+
+[23:29:16.524138] --->
+[32m[I/ui] ui_switch_key suspend...[0m
+[32m[I/voice] voice_msg num: 0[0m
+
