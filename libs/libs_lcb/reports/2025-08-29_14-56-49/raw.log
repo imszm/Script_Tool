@@ -1,3 +1,0 @@
-[2025-08-29 14:56:49.562] [INFO] 初始化 BLE 协议通信...
-[2025-08-29 14:56:49.580] [ERROR] 读取用例失败: 'AutoTester' object has no attribute 'load_cases'
-[2025-08-29 14:56:49.589] [DEBUG] 串口已关闭

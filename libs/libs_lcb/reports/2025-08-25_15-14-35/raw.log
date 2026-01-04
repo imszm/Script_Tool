@@ -1,3 +1,0 @@
-[2025-08-25 15:14:35.281] [INFO] 初始化 BLE 协议通信...
-[2025-08-25 15:14:35.287] [ERROR] 读取用例失败: 'utf-8' codec can't decode byte 0xd7 in position 0: invalid continuation byte
-[2025-08-25 15:14:35.288] [DEBUG] 串口已关闭
