@@ -1,3 +1,17 @@
+# IDE 配置文件
 .idea/
-*.pyc
+
+# Python 缓存与编译文件
 __pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+
+# 压力测试生成的日志文件 (防止上传大量的测试记录)
+Tool/ExceptionLog_*.txt
+Tool/TestLog_*.txt
+Tool/relay_exception_log.txt
+Tool/relay_random_test_log.txt
+
+# 如果你想忽略 Tool 文件夹下所有的 txt 文件，可以使用下面这一行
+# Tool/*.txt
