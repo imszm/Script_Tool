@@ -68,7 +68,7 @@ def main():
     target_count = 0
     other_errors = Counter()
     
-    # 用于记录非功耗异常的详细识别结果 (方便后续排查) 
+    # 用于记录非功耗异常的详细识别结果 (方便后续排查)
     unknown_details = []
 
     # 定义无意义的干扰词 (黑名单)

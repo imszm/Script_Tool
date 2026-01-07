@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-MCB 自动化白盒测试脚本 (V1.6 最终验收版)
+MCB 自动化白盒测试脚本 (V1.6 )
 ============================================================
 调试结论：
 1. 真实转速寄存器确认：Reg 0x09 (Motor Speed)。
@@ -221,7 +221,7 @@ def run_tests():
     try:
         engine.setup()
     except Exception as e:
-        print(f"❌ 初始化失败: {e}"); return
+        print(f"[ERROR] 初始化失败: {e}"); return
 
     print("=" * 60)
     print("      MCB 白盒测试执行报告 (V1.6 最终验收版)")
@@ -231,9 +231,9 @@ def run_tests():
     print("\n[Case 1] 通信链路测试")
     ver = engine.read_reg(REG_HW_VERSION, retry=5)
     if ver is not None and ver > 0:
-        print(f"  ✅ 通过: HW Ver {ver}")
+        print(f"  [PASS] 通过: HW Ver {ver}")
     else:
-        print("  ❌ 失败: 通信断开"); engine.teardown(); return
+        print("  [FAIL] 失败: 通信断开"); engine.teardown(); return
 
     # --- Case 2 ---
     print("\n[Case 2] 环境安全扫描")
@@ -242,18 +242,18 @@ def run_tests():
 
     print(f"  -> 电压: {volt:.1f}V")
     if err != 0:
-        print("  ⚠️ 检测到错误码，尝试清除...")
+        print("  [WARN] 检测到错误码，尝试清除...")
         engine.set_shadow(REG_RT_SETTING, 0x8000)
         time.sleep(0.5)
         engine.set_shadow(REG_RT_SETTING, 0)
         time.sleep(0.2)
         err_new = engine.read_reg(REG_ERR_CODE)
         if err_new == 0:
-            print("  ✅ 修复: 错误已清除")
+            print("  [FIXED] 修复: 错误已清除")
         else:
-            print(f"  ❌ 失败: 无法清除 0x{err_new:06X}"); engine.teardown(); return
+            print(f"  [FAIL] 失败: 无法清除 0x{err_new:06X}"); engine.teardown(); return
     else:
-        print("  ✅ 通过: 无错误")
+        print("  [PASS] 通过: 无错误")
 
     # --- Case 3 ---
     print("\n[Case 3] 模式切换")
@@ -262,9 +262,9 @@ def run_tests():
     time.sleep(0.5)
     mode = engine.read_reg(REG_RUN_MODE)
     if mode == 7:
-        print("  ✅ 通过: TEST Mode")
+        print("  [PASS] 通过: TEST Mode")
     else:
-        print(f"  ❌ 失败: Mode={mode}"); engine.teardown(); return
+        print(f"  [FAIL] 失败: Mode={mode}"); engine.teardown(); return
 
     # --- Case 4 ---
     print("\n[Case 4] 寄存器读写")
@@ -274,9 +274,9 @@ def run_tests():
     read_val = engine.read_reg(REG_GEAR)
     engine.resume_heartbeat()
     if read_val == 2:
-        print(f"  ✅ 通过: Gear OK")
+        print(f"  [PASS] 通过: Gear OK")
     else:
-        print(f"  ❌ 失败: Gear {read_val}")
+        print(f"  [FAIL] 失败: Gear {read_val}")
 
     # --- Case 5 ---
     print("\n[Case 5] IO 控制")
@@ -287,9 +287,9 @@ def run_tests():
     engine._raw_write(REG_RT_SETTING, 0)
     engine.resume_heartbeat()
     if (rt_read & 0x0C) == 0x0C:
-        print(f"  ✅ 通过: Light OK")
+        print(f"  [PASS] 通过: Light OK")
     else:
-        print(f"  ❌ 失败: Light 0x{rt_read:04X}")
+        print(f"  [FAIL] 失败: Light 0x{rt_read:04X}")
 
     # --- Case 6 ---
     print("\n[Case 6] 动力回路 (PID闭环测试)")
@@ -326,9 +326,9 @@ def run_tests():
     engine.set_shadow(REG_TARGET_SPEED, 0)
 
     if reached:
-        print(f"  ✅ 通过: 响应正常 (实际: {final_rpm} RPM, 误差 < {RPM_TOLERANCE})")
+        print(f"  [PASS] 通过: 响应正常 (实际: {final_rpm} RPM, 误差 < {RPM_TOLERANCE})")
     else:
-        print(f"  ❌ 失败: 读数为 {final_rpm} RPM")
+        print(f"  [FAIL] 失败: 读数为 {final_rpm} RPM")
 
     print("\n" + "=" * 60 + "\n      测试全部结束\n" + "=" * 60)
     engine.teardown()
