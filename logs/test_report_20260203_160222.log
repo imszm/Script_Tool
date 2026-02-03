@@ -1,0 +1,6 @@
+2026-02-03 16:02:22,167 - AutoTest - INFO - >>> 自动化测试框架启动 <<<
+2026-02-03 16:02:22,169 - AutoTest.Driver.RelayBox - INFO - [RelayBox] 串口 COM4 连接成功
+2026-02-03 16:02:22,203 - AutoTest.Driver.CarDevice - INFO - [CarDevice] 串口 COM25 连接成功
+2026-02-03 16:02:22,203 - AutoTest.Case.HornTest - INFO - === 开始喇叭压力测试，目标: 10 次 ===
+2026-02-03 16:02:34,220 - AutoTest.Case.HornTest - INFO - 进度: 10/10
+2026-02-03 16:02:34,220 - AutoTest.Case.HornTest - INFO - 喇叭测试完成

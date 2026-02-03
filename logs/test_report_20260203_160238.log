@@ -1,0 +1,5 @@
+2026-02-03 16:02:38,698 - AutoTest - INFO - >>> 自动化测试框架启动 <<<
+2026-02-03 16:02:38,701 - AutoTest.Driver.RelayBox - INFO - [RelayBox] 串口 COM4 连接成功
+2026-02-03 16:02:38,705 - AutoTest.Driver.CarDevice - INFO - [CarDevice] 串口 COM25 连接成功
+2026-02-03 16:02:38,705 - AutoTest.Case.PowerCycleTest - INFO - --- 循环 1: 开机测试中 ---
+2026-02-03 16:02:49,195 - AutoTest - WARNING - 用户强制停止

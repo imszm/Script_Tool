@@ -1,47 +1,49 @@
-# src/driver.py
 import serial
 import time
 import logging
 
-class RelayController:
-    def __init__(self, port, baudrate):
+class SerialDriver:
+    """
+    通用串口驱动：既能控制继电器，也能监听设备日志
+    """
+    def __init__(self, port, baudrate, name="SerialDev"):
         self.port = port
         self.baudrate = baudrate
+        self.name = name
         self.ser = None
-        # 获取 logger 实例，名字设为 AutoTest.Driver
-        self.logger = logging.getLogger("AutoTest.Driver")
+        self.logger = logging.getLogger(f"AutoTest.Driver.{name}")
 
     def connect(self):
-        """连接设备"""
         try:
-            self.ser = serial.Serial(self.port, self.baudrate, timeout=1)
-            self.logger.info(f"串口 {self.port} 连接成功")
+            # timeout设置短一点，方便读取循环不卡死
+            self.ser = serial.Serial(self.port, self.baudrate, timeout=0.1)
+            self.logger.info(f"[{self.name}] 串口 {self.port} 连接成功")
             return True
-        except serial.SerialException as e:
-            self.logger.error(f"串口连接失败: {e}")
+        except Exception as e:
+            self.logger.error(f"[{self.name}] 连接失败: {e}")
             return False
 
-    def send_cmd(self, cmd_bytes, description=""):
-        """
-        发送指令的通用方法
-        :param cmd_bytes: 16进制指令
-        :param description: 指令描述（用于日志记录）
-        """
+    def send_bytes(self, cmd_bytes, desc=""):
+        """发送指令 (Write)"""
         if self.ser and self.ser.is_open:
             try:
                 self.ser.write(cmd_bytes)
-                # 记录日志，而不是 print
-                # self.logger.debug(f"发送指令: {description}") # 如果嫌这句太吵可以注释掉
+                # self.logger.debug(f"发送[{desc}]")
                 return True
             except Exception as e:
-                self.logger.error(f"发送指令失败 [{description}]: {e}")
-                return False
-        else:
-            self.logger.warning("设备未连接，无法发送指令")
-            return False
+                self.logger.error(f"发送失败: {e}")
+        return False
+
+    def read_line(self):
+        """读取一行日志 (Read) - 用于开关机检测"""
+        if self.ser and self.ser.is_open and self.ser.in_waiting:
+            try:
+                # 忽略解码错误，防止乱码导致崩溃
+                return self.ser.readline().decode('utf-8', errors='ignore').strip()
+            except Exception:
+                pass
+        return None
 
     def close(self):
-        """安全关闭"""
-        if self.ser and self.ser.is_open:
+        if self.ser:
             self.ser.close()
-            self.logger.info("串口已关闭")

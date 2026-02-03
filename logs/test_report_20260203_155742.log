@@ -1,0 +1,7 @@
+2026-02-03 15:57:42,692 - AutoTest - INFO - >>> 自动化测试框架启动 <<<
+2026-02-03 15:57:42,694 - AutoTest.Driver.RelayBox - INFO - [RelayBox] 串口 COM4 连接成功
+2026-02-03 15:57:42,732 - AutoTest.Driver.CarDevice - INFO - [CarDevice] 串口 COM25 连接成功
+2026-02-03 15:57:42,733 - AutoTest.Case.PowerCycleTest - INFO - --- 循环 1: 开机测试中 ---
+2026-02-03 15:57:57,734 - AutoTest.Case.PowerCycleTest - ERROR - 失败: 开机超时，未检测到关键字
+2026-02-03 15:57:59,734 - AutoTest.Case.PowerCycleTest - INFO - --- 循环 2: 开机测试中 ---
+2026-02-03 15:58:04,147 - AutoTest - WARNING - 用户强制停止
