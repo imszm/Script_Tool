@@ -1,0 +1,4 @@
+2026-02-03 19:06:25,155 - AutoTest.Driver.Relay - INFO - [Relay] 串口 COM4 连接成功
+2026-02-03 19:06:25,191 - AutoTest.Driver.Device - INFO - [Device] 串口 COM25 连接成功
+2026-02-03 19:06:25,191 - AutoTest.Case.UpgradeToolTest - INFO - 正在连接升级工具...
+2026-02-03 19:06:35,375 - AutoTest.Case.UpgradeToolTest - ERROR - 无法连接程序，请先手动启动: 

@@ -1,0 +1,5 @@
+2026-02-03 19:01:46,099 - AutoTest.Driver.Relay - INFO - [Relay] 串口 COM4 连接成功
+2026-02-03 19:01:46,137 - AutoTest.Driver.Device - INFO - [Device] 串口 COM25 连接成功
+2026-02-03 19:01:46,139 - AutoTest.Driver.Servo - ERROR - [Servo] 连接失败: could not open port 'COM6': FileNotFoundError(2, '系统找不到指定的文件。', None, 2)
+2026-02-03 19:01:46,139 - AutoTest.Case.UpgradeToolTest - INFO - 正在连接升级工具...
+2026-02-03 19:01:56,307 - AutoTest.Case.UpgradeToolTest - ERROR - 无法连接程序，请先手动启动: 

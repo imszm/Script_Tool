@@ -1,0 +1,3 @@
+2026-02-03 19:09:17,928 - AutoTest.Driver.Relay - INFO - [Relay] 串口 COM4 连接成功
+2026-02-03 19:09:17,970 - AutoTest.Driver.Device - INFO - [Device] 串口 COM25 连接成功
+2026-02-03 19:09:17,970 - AutoTest.Case.HornTest - INFO - === 开始喇叭压力测试，目标: 100 次 ===
