@@ -47,7 +47,7 @@ CONFIG = {
     'POWER_ON_MIN': 3.0,
     'POWER_ON_MAX': 5.0,
     'POWER_OFF_TIME': 5.0,
-    'DELAY_AFTER_OFF': 20,  # 关机后等待日志的时间
+    'DELAY_AFTER_OFF': 2,  # 关机后等待日志的时间
 
     # 路径引用
     'LOG_FILENAME': LOG_FILE_PATH,

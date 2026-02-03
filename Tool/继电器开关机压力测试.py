@@ -63,7 +63,10 @@ CRITICAL_CONFIG = {
 SUCCESS_KEYWORDS = [
     "motorpoweron",
     "poweron",
-    "voice_msg num: 0",
+    "voice_msg num: 0"
+    ""
+    ""
+    "",
     "uipmacc:1:acc1:on0"
 ]
 
