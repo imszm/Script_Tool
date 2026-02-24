@@ -22,8 +22,8 @@ RELAY_BAUDRATE = 9600  # 继电器串口波特率
 DEVICE_BAUDRATE = 460800  # 设备串口波特率
 SERIAL_TIMEOUT = 0.1  # 串口读取超时
 TEST_CYCLES = 10000  # 测试循环次数
-POWER_ON_MIN = 0.1  # 最小供电时间（秒）
-POWER_ON_MAX = 0.9  # 最大供电时间（秒）
+POWER_ON_MIN = 3  # 最小供电时间（秒）
+POWER_ON_MAX = 4  # 最大供电时间（秒）
 POWER_OFF_TIME = 1.0  # 断电时间（秒）
 
 LOG_FILENAME = "relay_random_test_log.txt"  # 正常日志文件名

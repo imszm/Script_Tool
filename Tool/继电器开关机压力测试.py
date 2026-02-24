@@ -35,7 +35,7 @@ LOG_FLUSH_INTERVAL = 60     # 内存缓存落盘间隔（秒）
 # ================= 关键字逻辑配置 =================
 # 1. 普通异常关键字 (发现即记录异常，但不停止)
 EXCEPTION_KEYWORDS = [
-    "assertion faile datfunction",
+    "assertionfailedatfunction",
 ]
 
 # 2. 普通信息关键字 (仅记录，不报错)
@@ -47,26 +47,24 @@ INFO_KEYWORDS = [
 
 # 3. 累计错误关键字 (逻辑：window秒内 >= count次 -> 停止测试)
 ERROR_CONFIG = {
-    "keyword": "param is invalid".replace(" ", ""),
-    "window": 3.0,
-    "count": 3
+    "keyword":"paramisinvalid".replace(" ", ""),
+    "window":3.0,
+    "count":3
 }
 
 # 4. 致命错误关键字 (逻辑：window秒内 >= count次 -> 立即停止测试)
 CRITICAL_CONFIG = {
-    "keyword": "[e/motor]reg_addr(00)isunviald",
-    "window": 1.0,
-    "count": 3
+    "keyword":"[e/motor]reg_addr(00)isunviald",
+    "window":1.0,
+    "count":3
 }
 
 # 5. 开机成功判定关键字 (满足任意一个即可认为开机成功)
 SUCCESS_KEYWORDS = [
     "motorpoweron",
     "poweron",
-    "voice_msg num: 0"
-    ""
-    ""
-    "",
+    "voice_msg num:0",
+    "ThreadOperatingSystem",
     "uipmacc:1:acc1:on0"
 ]
 

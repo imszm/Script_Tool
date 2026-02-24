@@ -1,0 +1,9 @@
+2026-02-04 20:12:04,040 - AutoTest - INFO - >>> 自动化测试框架 V2.0 启动 <<<
+2026-02-04 20:12:10,297 - AutoTest.Driver.RelayGen - INFO - [RelayGen] 串口 COM4 连接成功
+2026-02-04 20:12:10,338 - AutoTest.Driver.Device - INFO - [Device] 串口 COM25 连接成功
+2026-02-04 20:12:11,339 - AutoTest.Case.ChargingTest - INFO - --- 充电测试 Cycle 1 ---
+2026-02-04 20:12:19,820 - AutoTest.Case.ChargingTest - WARNING - 结果: 失败 (未检测到关键字)
+2026-02-04 20:12:19,820 - AutoTest.Case.ChargingTest - INFO - --- 充电测试 Cycle 2 ---
+2026-02-04 20:12:28,352 - AutoTest.Case.ChargingTest - WARNING - 结果: 失败 (未检测到关键字)
+2026-02-04 20:12:28,359 - AutoTest.Case.ChargingTest - INFO - --- 充电测试 Cycle 3 ---
+2026-02-04 20:12:31,878 - AutoTest - WARNING - 用户停止
