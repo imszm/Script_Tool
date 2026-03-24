@@ -1,0 +1,12 @@
+pyserial
+pywin32
+pywinauto
+pyautogui
+pygetwindow
+psutil
+pillow
+pandas
+openpyxl
+pytesseract
+pytest
+allure-pytest

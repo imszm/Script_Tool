@@ -29,7 +29,7 @@ if not os.path.exists(LOG_DIR):
 LOG_FILE_PATH = os.path.join(LOG_DIR, f"test_{START_TIME_STR}_full.log")
 # 2. 错误日志（仅记录严重报错）
 ERR_FILE_PATH = os.path.join(LOG_DIR, f"test_{START_TIME_STR}_error.log")
-# 3. 原始数据日志（原汁原味，给开发Debug用）
+# 3. 原始数据日志
 RAW_FILE_PATH = os.path.join(LOG_DIR, f"test_{START_TIME_STR}_raw.log")
 
 CONFIG = {
@@ -39,7 +39,7 @@ CONFIG = {
     'SERIAL_TIMEOUT': 1.0,
 
     # 端口识别关键字 (请根据实际情况调整)
-    'RELAY_PORT_KEYWORD': "4",
+    'RELAY_PORT_KEYWORD': "USB-SERIAL CH340",
     'DEVICE_PORT_KEYWORD': "cp210x",
 
     # 测试循环设置
@@ -47,7 +47,7 @@ CONFIG = {
     'POWER_ON_MIN': 3.0,
     'POWER_ON_MAX': 5.0,
     'POWER_OFF_TIME': 5.0,
-    'DELAY_AFTER_OFF': 2,  # 关机后等待日志的时间
+    'DELAY_AFTER_OFF': 30,  # 关机后等待日志的时间
 
     # 路径引用
     'LOG_FILENAME': LOG_FILE_PATH,
@@ -317,13 +317,13 @@ class RelayTester:
         # 5. 统计逻辑
         if is_exception:
             self.stats['exceptions'] += 1
-            logger.error(f"第 {cycle_num} 轮结果: 🔴 严重异常 (代码报错)")
+            logger.error(f"第 {cycle_num} 轮结果:  严重异常 (代码报错)")
         elif is_success:
             self.stats['success'] += 1
-            logger.info(f"第 {cycle_num} 轮结果: 🟢 成功")
+            logger.info(f"第 {cycle_num} 轮结果:  成功")
         else:
             self.stats['failures'] += 1
-            logger.warning(f"第 {cycle_num} 轮结果: 🟡 失败 (未检测到关键字)")
+            logger.warning(f"第 {cycle_num} 轮结果:  失败 (未检测到关键字)")
 
         logger.info(
             f"当前统计 -> 成功: {self.stats['success']} | 失败: {self.stats['failures']} | 异常: {self.stats['exceptions']}")

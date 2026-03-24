@@ -6,6 +6,10 @@ RELAY_PORT = 'COM4'  # 通用继电器 (W3, 充电)
 DEVICE_PORT = 'COM25'  # 车机设备通信口
 RELAY_CCB_PORT = 'COM12'  # CCB测试专用的继电器口
 
+# 舵机串口 (NFC 自动化)
+SERVO_PORT = 'COM6'
+BAUDRATE_SERVO = 115200
+
 # 波特率
 BAUDRATE_RELAY = 9600
 BAUDRATE_DEVICE = 115200
@@ -22,6 +26,15 @@ COMMANDS = {
     # [CCB SMT项目] ASCII 指令
     "ASCII_OFF": b'P',  # 继电器断电
     "ASCII_ON": b'O',  # 继电器上电
+
+    # [转向灯] ASCII 指令 (继电器多路)
+    "TURN_OFF": b'P',
+    "LEFT_TURN_ON": b'R',   # 左灯(第2路)
+    "RIGHT_TURN_ON": b'T',  # 右灯(第3路)
+
+    # [喇叭] 16进制按压/松开 (沿用历史脚本节奏)
+    "HORN_PRESS": bytes([0x4F]),
+    "HORN_RELEASE": bytes([0x50]),
 }
 
 # ================= 判定关键字 =================
@@ -33,6 +46,19 @@ KEYWORDS = {
     # 充电测试判定
     "CHARGE_SUCCESS": ["voice_msgnum:9", "voice_msgnum:10"],
     "CHARGE_ERROR": ["assertionfailedatfunction"],
+}
+
+# ================= 舵机/NFC 配置 =================
+# 舵机动作（示例：#000P0500T1000! 抬起，#000P2500T1000! 下压）
+SERVO_CMDS = {
+    "NFC_LOW": b"#000P2500T1000!",
+    "NFC_HIGH": b"#000P0500T1000!",
+}
+
+NFC_KEYWORDS = {
+    # 仅用于简单日志判断（与 Tool/ 总线舵机NFC压力测试.py 保持一致）
+    "ON": "ui_pm_acc: 0:nfc 1:on 0",
+    "OFF": "ui_pm_acc: 0:nfc 0:off 1",
 }
 
 # ================= PC工具自动化配置 (Pywinauto) =================

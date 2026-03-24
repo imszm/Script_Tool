@@ -1,6 +1,6 @@
-import time
 import os
-from pywinauto.application import Application
+import time
+
 from src import config
 from src.tests.base_test import BaseTest
 
@@ -11,6 +11,12 @@ class PcUpgradeTest(BaseTest):
     """
 
     def run(self, loops):
+        try:
+            from pywinauto.application import Application
+        except Exception as e:
+            self.logger.error(f"缺少依赖 pywinauto，无法执行 PC 升级工具测试: {e}")
+            return
+
         cfg = config.PC_TOOL_CONFIG
         title = cfg["UPGRADE_APP_TITLE"]
 

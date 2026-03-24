@@ -1,7 +1,5 @@
 import time
-import win32api, win32con
-from PIL import ImageGrab
-from pywinauto.application import Application
+
 from src import config
 from src.tests.base_test import BaseTest
 
@@ -13,6 +11,9 @@ class CcbSmtTest(BaseTest):
     """
 
     def fast_click(self, x, y):
+        import win32api
+        import win32con
+
         win32api.SetCursorPos((x, y))
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, x, y, 0, 0)
         time.sleep(0.05)
@@ -21,6 +22,8 @@ class CcbSmtTest(BaseTest):
     def check_pixel_status(self):
         """像素颜色检测逻辑"""
         try:
+            from PIL import ImageGrab
+
             screen = ImageGrab.grab()
             for (cx, cy) in config.PC_TOOL_CONFIG["CCB_CHECK_POINTS"]:
                 rgb = screen.getpixel((cx, cy))
@@ -36,6 +39,12 @@ class CcbSmtTest(BaseTest):
     def run(self, loops):
         relay = self.drivers.get('relay')  # 注意：这里实际上需要连接 COM12
         cfg = config.PC_TOOL_CONFIG
+
+        try:
+            from pywinauto.application import Application
+        except Exception as e:
+            self.logger.error(f"缺少依赖 pywinauto，无法执行 CCB SMT 自动化测试: {e}")
+            return
 
         # 连接软件
         try:
