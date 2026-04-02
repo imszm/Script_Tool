@@ -1,0 +1,443 @@
+[2026-03-25 10:10:47] [TEST_ACTION] 检测结果 -> 继电器: COM11 | 通信线: COM14
+[2026-03-25 10:10:47] [TEST_ACTION] 串口打开成功
+[2026-03-25 10:10:47] [TEST_ACTION] 正在初始化测试环境...
+[2026-03-25 10:10:47] [TEST_ACTION] 初始化步骤 1: 执行开机动作
+[2026-03-25 10:10:47] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:10:50] [TEST_ACTION] 初始化步骤 2: 执行关机动作
+[2026-03-25 10:10:50] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:10:50] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:10:50] [TEST_ACTION] 初始化完成: 已进入初始断电状态，等待 2 秒后开始压力测试
+[2026-03-25 10:10:52] [TEST_ACTION] 测试正式开始，目标总次数: 200000
+[2026-03-25 10:10:52] [TEST_ACTION] 
+--- 第 1 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:10:52] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:10:52] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:10:52] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:10:52] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:10:52] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:10:52] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:52] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:52] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:10:52] [I/handle_bar] bar_value :2041
+[2026-03-25 10:10:52] [I/voice] voice_msg num[I/motor] motor power on
+[2026-03-25 10:10:52] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num[I/motor] motor power on
+[2026-03-25 10:10:52] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/voice] voice_msg num[32m[I/motor] motor power on[0m
+[2026-03-25 10:10:52] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:10:52] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.12s)
+[2026-03-25 10:10:54] [TEST_ACTION] 
+--- 第 2 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:10:54] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:10:54] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:10:54] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:10:54] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:10:54] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:10:54] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:54] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:54] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:10:55] [I/handle_bar] bar_value :2041
+[2026-03-25 10:10:55] [I/voic[I/motor] motor power on
+[2026-03-25 10:10:55] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/voic[32m[I/motor] motor power on[0m
+[2026-03-25 10:10:55] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:10:55] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.11s)
+[2026-03-25 10:10:57] [TEST_ACTION] 
+--- 第 3 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:10:57] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:10:57] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:10:57] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:10:57] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:10:57] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:10:57] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:57] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:57] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:10:57] [I/handle_bar] bar_value :2041
+[2026-03-25 10:10:57] [I/voice] voice_msg num: 1
+[2026-03-25 10:10:57] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:10:57] [I/motor] motor power on
+[2026-03-25 10:10:57] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:10:57] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:10:57] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:10:59] [TEST_ACTION] 
+--- 第 4 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:10:59] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:10:59] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:10:59] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:10:59] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:10:59] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:10:59] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:59] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:10:59] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:10:59] [I/handle_bar] bar_value :2041
+[2026-03-25 10:10:59] [I/voice] voice_msg num: 1
+[2026-03-25 10:10:59] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:10:59] [I/motor] motor power on
+[2026-03-25 10:10:59] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:10:59] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:10:59] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:01] [TEST_ACTION] 
+--- 第 5 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:01] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:01] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:01] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:01] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:01] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:01] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:01] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:01] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:02] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:02] [I/voice] voi[I/motor] motor power on
+[2026-03-25 10:11:02] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/voice] voi[32m[I/motor] motor power on[0m
+[2026-03-25 10:11:02] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:02] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.12s)
+[2026-03-25 10:11:04] [TEST_ACTION] 
+--- 第 6 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:04] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:04] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:04] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:04] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:04] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:04] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:04] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:04] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:04] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:04] [I/motor] motor power on
+[2026-03-25 10:11:04] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:04] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:04] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.11s)
+[2026-03-25 10:11:06] [TEST_ACTION] 
+--- 第 7 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:06] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:06] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:06] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:06] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:06] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:06] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:06] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:06] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:06] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:06] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:06] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:06] [I/motor] motor power on
+[2026-03-25 10:11:06] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:06] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:06] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:08] [TEST_ACTION] 
+--- 第 8 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:08] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:08] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:08] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:08] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:08] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:08] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:08] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:08] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:09] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:09] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:09] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:09] [I/motor] motor power on
+[2026-03-25 10:11:09] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:09] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:09] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.16s)
+[2026-03-25 10:11:11] [TEST_ACTION] 
+--- 第 9 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:11] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:11] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:11] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:11] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:11] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:11] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:11] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:11] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:11] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:11] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:11] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:11] [I/motor] motor power on
+[2026-03-25 10:11:11] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:11] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:11] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.13s)
+[2026-03-25 10:11:13] [TEST_ACTION] 
+--- 第 10 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:13] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:13] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:13] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:13] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:13] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:13] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:13] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:13] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:13] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:13] [I/voice] voice_ms[32m[I/motor] motor power on
+[2026-03-25 10:11:13] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/voice] voice_ms[32m[I/motor] motor power on[0m
+[2026-03-25 10:11:13] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:13] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.12s)
+[2026-03-25 10:11:15] [TEST_ACTION] 
+--- 第 11 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:15] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:15] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:15] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:15] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:15] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:15] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:15] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:15] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:16] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:16] [[I/motor] motor power on
+[2026-03-25 10:11:16] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[[32m[I/motor] motor power on[0m
+[2026-03-25 10:11:16] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:16] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.12s)
+[2026-03-25 10:11:18] [TEST_ACTION] 
+--- 第 12 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:18] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:18] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:18] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:18] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:18] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:18] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:18] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:18] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:18] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:18] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:18] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:18] [I/motor] motor power on
+[2026-03-25 10:11:18] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:18] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:18] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.13s)
+[2026-03-25 10:11:20] [TEST_ACTION] 
+--- 第 13 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:20] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:20] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:20] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:20] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:20] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:20] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:20] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:20] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:20] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:20] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:20] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:20] [I/motor] motor power on
+[2026-03-25 10:11:20] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:20] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:20] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:22] [TEST_ACTION] 
+--- 第 14 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:22] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:22] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:22] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:22] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:22] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:22] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:22] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:22] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:23] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:23] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:23] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:23] [I/motor] motor power on
+[2026-03-25 10:11:23] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:23] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:23] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:25] [TEST_ACTION] 
+--- 第 15 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:25] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:25] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:25] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:25] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:25] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:25] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:25] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:25] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:25] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:25] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:25] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:25] [I/motor] motor power on
+[2026-03-25 10:11:25] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:25] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:25] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:27] [TEST_ACTION] 
+--- 第 16 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:27] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:27] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:27] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:27] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:27] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:27] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:27] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:27] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:27] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:27] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:27] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:27] [I/motor] motor power on
+[2026-03-25 10:11:27] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:27] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:27] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:29] [TEST_ACTION] 
+--- 第 17 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:29] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:29] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:29] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:29] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:29] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:29] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:29] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:29] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:30] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:30] [I/voice] voi[I/motor] motor power on
+[2026-03-25 10:11:30] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/voice] voi[32m[I/motor] motor power on[0m
+[2026-03-25 10:11:30] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:30] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.11s)
+[2026-03-25 10:11:32] [TEST_ACTION] 
+--- 第 18 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:32] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:32] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:32] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:32] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:32] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:32] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:32] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:32] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:32] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:32] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:32] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:32] [I/ui] refesh_cache
+[2026-03-25 10:11:32] [I/motor] motor power on
+[2026-03-25 10:11:32] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:32] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:32] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.19s)
+[2026-03-25 10:11:34] [TEST_ACTION] 
+--- 第 19 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:34] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:34] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:34] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:34] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:34] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:34] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:34] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:34] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:34] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:34] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:34] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:34] [I/motor] motor power on
+[2026-03-25 10:11:34] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:34] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:34] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.12s)
+[2026-03-25 10:11:36] [TEST_ACTION] 
+--- 第 20 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:36] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:36] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:36] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:36] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:36] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:36] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:36] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:36] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:37] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:37] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:37] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:37] [I/motor] motor power on
+[2026-03-25 10:11:37] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:37] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:37] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:39] [TEST_ACTION] 
+--- 第 21 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:39] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:39] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:39] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:39] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:39] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:39] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:39] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:39] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:39] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:39] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:39] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:39] [I/motor] motor power on
+[2026-03-25 10:11:39] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:39] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:39] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:41] [TEST_ACTION] 
+--- 第 22 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:41] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:41] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:41] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:41] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:41] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:41] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:41] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:41] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:41] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:41] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:41] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:41] [I/motor] motor power on
+[2026-03-25 10:11:41] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:41] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:41] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.13s)
+[2026-03-25 10:11:43] [TEST_ACTION] 
+--- 第 23 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:43] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:43] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:43] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:43] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:43] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:43] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:43] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:43] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:44] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:44] [I/motor] motor power on
+[2026-03-25 10:11:44] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:44] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:44] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.11s)
+[2026-03-25 10:11:46] [TEST_ACTION] 
+--- 第 24 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:46] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:46] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:46] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:46] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:46] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:46] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:46] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:46] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:46] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:46] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:46] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:46] [I/motor] motor power on
+[2026-03-25 10:11:46] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:46] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:46] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.13s)
+[2026-03-25 10:11:48] [TEST_ACTION] 
+--- 第 25 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:48] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:48] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:48] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:48] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:48] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:48] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:48] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:48] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:48] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:48] [I/voice] voice_msg num: 1
+[2026-03-25 10:11:48] [TEST_ACTION] 信息关键字检测: voice_msgnum -> [I/voice] voice_msg num: 1
+[2026-03-25 10:11:48] [I/motor] motor power on
+[2026-03-25 10:11:48] [TEST_ACTION] 成功关键字命中: [motorpoweron] -> [32m[I/motor] motor power on[0m
+[2026-03-25 10:11:48] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:48] [TEST_ACTION] 单次测试结果: 成功 (启动耗时: 0.14s)
+[2026-03-25 10:11:50] [TEST_ACTION] 
+--- 第 26 次循环 (上电保持: 2.0s, 超时设定: 5.0s) ---
+[2026-03-25 10:11:50] [TEST_ACTION] 已清空串口输入缓冲区，开始监听本次上电日志
+[2026-03-25 10:11:50] [TEST_ACTION] 继电器执行动作 -> ON
+[2026-03-25 10:11:50] [I/gkey] acc_cb, key_evt: 1
+[2026-03-25 10:11:50] [I/pms] pm_thread, recved: 0x2
+[2026-03-25 10:11:50] [I/pms] pm_event, event: 0x2
+[2026-03-25 10:11:50] [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:50] [TEST_ACTION] 信息关键字检测: ui_pm_acc -> [I/ui] ui_pm_acc: acc - on,  screen - off
+[2026-03-25 10:11:50] [I/ui] exit sleep: acc_key 1
+[2026-03-25 10:11:51] [I/handle_bar] bar_value :2041
+[2026-03-25 10:11:51] [[I/motor] motor [I/ui] refesh_cache
+[2026-03-25 10:11:51] cache n
+[2026-03-25 10:11:51] cache n voice_msg num: 1
+[2026-03-25 10:11:51] [TEST_ACTION] 信息关键字检测: voice_msgnum -> cache n voice_msg num: 1
+[2026-03-25 10:11:51] [I/jmiot] BASE data successful
+[2026-03-25 10:11:51] [I/jmiot] Sock 0 receive
+[2026-03-25 10:11:51] [I/jmiot] HEART successful
+[2026-03-25 10:11:51] [I/jmiot] Sock 0 receive
+[2026-03-25 10:11:51] [I/motor] The motor: V1330R624C01L0
+[2026-03-25 10:11:56] [TEST_ACTION] 继电器执行动作 -> OFF
+[2026-03-25 10:11:56] [TEST_ACTION] 单次测试结果: 失败 - 5.0秒内未检测到开机关键字
