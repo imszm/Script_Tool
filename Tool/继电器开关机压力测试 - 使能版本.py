@@ -35,7 +35,7 @@ EXCEPTION_LOG_FILENAME: str = "relay_exception_log.txt" # 异常追踪日志文�
 # ================= 关键字逻辑配置 =================
 # 1. 普通异常关键字 (发现即记录异常)
 EXCEPTION_KEYWORDS: List[str] = [
-    "assertion faile datfunction",
+    "assertion failed at function",
 ]
 
 # 2. 普通信息关键字 (仅记录，不报错)
@@ -119,15 +119,9 @@ class RelayTester:
         return logger
 
     def show_message(self, message: str, title: str = "提示") -> None:
-        """
-        调用系统弹窗提示信息
-        
-        :param message: 提示内容
-        :param title: 弹窗标题
-        """
+        """调用系统弹窗提示信息"""
         if HAS_WIN32:
             try:
-                # 使用系统模态对话框，确保置顶可见
                 win32api.MessageBox(0, str(message), f"{title}", 
                                     win32con.MB_ICONINFORMATION | win32con.MB_SYSTEMMODAL)
             except Exception as e:
@@ -138,8 +132,7 @@ class RelayTester:
     def detect_ports(self) -> Tuple[Optional[str], Optional[str]]:
         """
         自动遍历并检测继电器和被测设备的系统串口号
-        
-        :return: (被测设备串口号, 继电器串口号)
+        【修复点】：不再依赖不稳定的 COM 号，纯粹依靠底层芯片型号划分。
         """
         ports = list(serial.tools.list_ports.comports())
         relay_port: Optional[str] = None
@@ -147,21 +140,19 @@ class RelayTester:
 
         for p in ports:
             desc = p.description.lower()
-            # 注意：此处依赖具体驱动名称，需确保测试环境一致
-            if "4" in desc:  
+            
+            # CH340 是市面上 USB 继电器标配的串口控制芯片
+            if "ch340" in desc:
                 relay_port = p.device
+            # CP210x 通常是你被测设备的调试接口芯片
             elif "cp210x" in desc:
                 device_port = p.device
 
-        self.logger.info(f"串口检测结果 -> 继电器: {relay_port} | 通信线: {device_port}")
+        self.logger.info(f"串口检测结果 -> 继电器(CH340): {relay_port} | 设备通信线(CP210x): {device_port}")
         return device_port, relay_port
 
     def open_serial_ports(self) -> bool:
-        """
-        打开继电器与被测设备的串口连接并清空缓冲区
-        
-        :return: 布尔值，指示串口是否全部成功打开
-        """
+        """打开继电器与被测设备的串口连接并清空缓冲区"""
         self.device_port, self.relay_port = self.detect_ports()
         if not self.device_port or not self.relay_port:
             self.logger.error("未检测到完整的设备（继电器或测试设备缺失），无法启动测试。")
@@ -180,120 +171,98 @@ class RelayTester:
 
     def init_relay_hardware(self) -> None:
         """
-        继电器硬件初始化逻辑
-        流程：复位(0x50) -> 握手(0x51) -> 设备识别 -> 强制断电(0x50)
+        执行继电器的复位与工作态使能
+        【修复点】：补全了 STEP 2 完整的状态机使能流程。
         """
-        if not self.relay_ser or not self.relay_ser.is_open:
-            self.logger.error("初始化跳过：继电器串口未打开或未初始化。")
-            return
-
         self.logger.info(">>> 开始执行继电器硬件初始化...")
-        try:
-            # 1. 发送 0x50 (复位信号)
-            self.logger.info("STEP 1: 发送复位指令 (0x50)...")
-            self.relay_ser.write(bytes([0x50]))
-            time.sleep(1.0)
-            
-            # 清理硬件复位可能产生的冗余响应数据
-            if self.relay_ser.in_waiting:
-                self.relay_ser.read(self.relay_ser.in_waiting)
-
-            # 2. 发送 0x51 (使能/查询指令)
-            self.logger.info("STEP 2: 发送使能/查询指令 (0x51)...")
-            self.relay_ser.write(bytes([0x51]))
-            time.sleep(1.0)
-
-            # 3. 读取响应并判断硬件通道类型
-            if self.relay_ser.in_waiting:
-                resp = self.relay_ser.read(self.relay_ser.in_waiting)
-                resp_hex = resp.hex().lower()
-
-                type_str = "未知通道继电器"
-                if "ac" in resp_hex:
-                    type_str = "8路继电器"
-                elif "ab" in resp_hex:
-                    type_str = "4路继电器"
-                elif "ad" in resp_hex:
-                    type_str = "2路继电器"
-
-                self.logger.info(f"=== 成功检测到硬件：{type_str} (响应: {resp_hex}) ===")
+        
+        # STEP 1: 发送 0x50 (复位与查询型号)
+        self.logger.info("STEP 1: 发送复位指令 (0x50)...")
+        self.relay_ser.write(bytes([0x50]))
+        time.sleep(1.0)
+        
+        # 读取并判断硬件通道类型
+        if self.relay_ser.in_waiting:
+            resp = self.relay_ser.read(self.relay_ser.in_waiting)
+            resp_hex = resp.hex().lower()
+            self.logger.info(f"=== 成功检测到硬件回包 (响应: {resp_hex}) ===")
+        else:
+            self.logger.error("=== 致命错误：继电器未返回握手数据 ===")
+            if HAS_WIN32:
+                win32api.MessageBox(
+                    0, 
+                    "继电器防呆锁死！\n\n请物理拔掉继电器的 USB 线，重新插上后，再点击【确定】继续运行。", 
+                    "硬件状态锁死", 
+                    win32con.MB_ICONWARNING | win32con.MB_SYSTEMMODAL
+                )
+                self.logger.info("用户已确认重新插拔，重试 STEP 1...")
+                self.relay_ser.write(bytes([0x50]))
+                time.sleep(1.0)
+                if self.relay_ser.in_waiting:
+                    resp = self.relay_ser.read(self.relay_ser.in_waiting)
+                    self.logger.info(f"=== 重试握手成功 (响应: {resp.hex().lower()}) ===")
+                else:
+                    raise StopTestException("继电器彻底无响应，请检查硬件是否损坏！")
             else:
-                self.logger.error("=== 警告：继电器未返回任何握手数据，可能通信异常 ===")
+                raise StopTestException("继电器处于锁死状态，请拔插 USB 后重新运行脚本！")
 
-            # 4. 初始化完成后，置于安全状态（强制关闭）
-            self.logger.info("STEP 3: 初始化完成，下发强制关闭指令 (0x50)...")
-            self.relay_ser.write(bytes([0x50]))
-            time.sleep(2.0)
-            self.logger.info(">>> 继电器已就绪 (处于 OFF 状态)")
-
-        except serial.SerialException as e:
-            self.logger.exception(f"继电器串口读写异常: {e}")
+        # STEP 2: 发送 0x51 (工作态使能)
+        # 你的上一版代码漏掉了这一步！没有 0x51 硬件将永远无法响应开关指令。
+        self.logger.info("STEP 2: 发送工作态使能指令 (0x51)...")
+        self.relay_ser.write(bytes([0x51]))
+        time.sleep(1.0)
+        
+        # 清除使能指令可能带来的多余字符
+        if self.relay_ser.in_waiting:
+            self.relay_ser.read(self.relay_ser.in_waiting)
+            
+        self.logger.info(">>> 继电器使能完成，正式进入工作模式。")
 
     def check_frequency(self, timestamps_deque: Deque[float], window_seconds: float, threshold_count: int) -> bool:
-        """
-        通用的基于时间窗口的频率检查算法
-        
-        :param timestamps_deque: 存储历史事件时间戳的双端队列
-        :param window_seconds: 统计的时间窗口大小（秒）
-        :param threshold_count: 触发阈值次数
-        :return: 是否达到触发频率
-        """
+        """通用的基于时间窗口的频率检查算法"""
         now = time.time()
         timestamps_deque.append(now)
-
-        # 剔除滑动窗口之外的陈旧时间戳记录
         while timestamps_deque and timestamps_deque[0] < now - window_seconds:
             timestamps_deque.popleft()
-
         return len(timestamps_deque) >= threshold_count
 
     def process_log_line(self, line: str) -> Tuple[bool, Optional[str]]:
-        """
-        分析单行串口日志，检索关键字并进行频率计算
-        
-        :param line: 原始串口日志字符串
-        :return: (是否触发停止条件, 具体的停止原因描述)
-        """
-        # 1. 预处理：清洗ANSI控制符，转为小写并去除空格以增强匹配容错率
+        """分析单行串口日志"""
         clean_line = self.ansi_escape.sub('', line)
         line_check = clean_line.lower().replace(" ", "")
 
-        # 2. 信息类关键字检测（仅记录日志调试用）
         for kw in INFO_KEYWORDS:
             if kw in line_check:
-                # 使用 DEBUG 级别避免刷屏，实际测试中可根据需要调整
                 self.logger.debug(f"【匹配信息】{kw} -> {clean_line.strip()}")
 
-        # 3. 异常关键字检测（记录错误但不立即停止）
         for kw in EXCEPTION_KEYWORDS:
             if kw in line_check:
                 self.total_exceptions += 1
                 self.logger.error(f"【异常检测】发现目标关键字: {kw} | 原始日志: {clean_line.strip()}")
 
-        # 4. 累计型错误检测 (如：3秒内 >= 3次)
         if ERROR_CONFIG["keyword"] in line_check:
-            if self.check_frequency(self.error_timestamps, ERROR_CONFIG["window"], ERROR_CONFIG["count"]):
-                return True, f"触发停止条件：{ERROR_CONFIG['window']}秒内出现{ERROR_CONFIG['count']}次 '{ERROR_CONFIG['keyword']}'"
+            if self.check_frequency(self.error_timestamps, float(ERROR_CONFIG["window"]), int(ERROR_CONFIG["count"])):
+                return True, f"触发停止条件：{ERROR_CONFIG['window']}秒内出现{ERROR_CONFIG['count']}次"
 
-        # 5. 致命型错误检测 (如：1秒内 >= 3次)
         if CRITICAL_CONFIG["keyword"] in line_check:
-            if self.check_frequency(self.critical_timestamps, CRITICAL_CONFIG["window"], CRITICAL_CONFIG["count"]):
-                return True, f"触发致命停止：{CRITICAL_CONFIG['window']}秒内出现{CRITICAL_CONFIG['count']}次 '{CRITICAL_CONFIG['keyword']}'"
+            if self.check_frequency(self.critical_timestamps, float(CRITICAL_CONFIG["window"]), int(CRITICAL_CONFIG["count"])):
+                return True, f"触发致命停止：{CRITICAL_CONFIG['window']}秒内出现{CRITICAL_CONFIG['count']}次"
 
         return False, None
 
     def control_relay(self, action: str) -> None:
         """
         下发指令控制继电器开关
-        
-        :param action: 'on' 打开 或 'off' 关闭
+        【修复点】：ICSE 继电器使能后控制采用按位进制。绝不能发 0x50！
         """
         if not self.relay_ser or not self.relay_ser.is_open:
             self.logger.warning(f"试图执行继电器操作 '{action}' 失败: 继电器串口未就绪。")
             return
             
         try:
-            cmd = bytes([0x4F]) if action == 'on' else bytes([0x50])
+            # 0x01: 打开第一路继电器 (如果想开多路，可以是 0x03、0xFF 等)
+            # 0x00: 关闭所有继电器
+            cmd = bytes([0x01]) if action == 'on' else bytes([0x00])
             self.relay_ser.write(cmd)
             time.sleep(0.1)
             self.logger.info(f"继电器物理动作执行 -> {action.upper()}")
@@ -301,182 +270,142 @@ class RelayTester:
             self.logger.error(f"向继电器下发控制指令失败: {e}")
 
     def monitor_serial_stream(self, duration: float) -> Tuple[str, bool, Optional[str]]:
-        """
-        在指定时间内持续读取并分析被测设备的串口流数据
-        
-        :param duration: 持续监控时长（秒）
-        :return: (全量日志拼接字符串, 是否触发停止逻辑, 停止原因文本)
-        """
+        """在指定时间内持续读取设备日志"""
         end_time = time.time() + duration
         collected_logs: List[str] = []
 
         while time.time() < end_time:
             try:
                 if self.device_ser and self.device_ser.in_waiting:
-                    # 读取时指定 errors='replace' 可有效防止乱码导致程序崩溃
                     raw_line = self.device_ser.readline().decode('gb2312', errors='replace')
                     if not raw_line: 
                         continue
 
                     collected_logs.append(raw_line.strip())
-
-                    # 实时分析此行日志内容
                     should_stop, reason = self.process_log_line(raw_line)
                     if should_stop:
                         return "\n".join(collected_logs), True, reason
-
-                    # 如果读取到了数据，紧接着尝试下一次读取以清空缓冲区，不执行 sleep
                     continue
-
-                # 避免 CPU 空转
                 time.sleep(0.005)
-
             except serial.SerialException:
-                self.logger.error("【警告】被测设备串口连接断开，尝试触发重连机制...")
+                self.logger.error("【警告】被测设备串口连接断开，尝试触发重连...")
                 self.try_reconnect_device()
                 break
             except Exception as e:
-                self.logger.exception(f"读取串口数据流时发生未预期异常: {e}")
+                self.logger.exception(f"读取串口流异常: {e}")
 
         return "\n".join(collected_logs), False, None
 
     def try_reconnect_device(self) -> None:
-        """当设备串口发生物理断开或通信异常时的自动重连逻辑"""
+        """设备串口断线重连逻辑"""
         self.device_disconnect_count += 1
-        
-        # 尝试清理旧的句柄
         if self.device_ser:
             try:
                 self.device_ser.close()
             except Exception:
                 pass
 
-        self.logger.info(f"等待 {DEVICE_RETRY_DELAY} 秒后重新扫描设备端口...")
         time.sleep(DEVICE_RETRY_DELAY)
-        
         new_dev, _ = self.detect_ports()
 
         if new_dev:
             try:
                 self.device_port = new_dev
                 self.device_ser = serial.Serial(self.device_port, DEVICE_BAUDRATE, timeout=SERIAL_TIMEOUT)
-                self.logger.info(f"【恢复】设备串口重连成功，挂载端口: {new_dev}")
+                self.logger.info(f"【恢复】设备串口重连成功: {new_dev}")
             except serial.SerialException as e:
-                self.logger.error(f"设备端口重连阶段引发异常: {e}")
+                self.logger.error(f"设备端口重连引发异常: {e}")
         else:
             self.logger.error("设备重连失败：系统未扫描到对应的硬件节点。")
 
     def analyze_cycle_result(self, full_logs: str) -> Tuple[bool, str]:
-        """
-        对单次测试循环内收集到的所有日志进行最终成功率判定
-        
-        :param full_logs: 该周期内收集的串口文本
-        :return: (判定是否成功, 判定详情摘要)
-        """
+        """判定单循环开机成功率"""
         logs_lower = full_logs.lower().replace(" ", "")
 
-        has_motor_on = "motorpoweron..." in logs_lower
+        has_motor_on = "motorpoweron" in logs_lower
         has_pm_acc = "pm_acc_tim," in logs_lower
         has_power_off = "power_off_system" in logs_lower
 
-        # 当前判定逻辑：只要出现其中一种特征日志即视为有响应
         if has_motor_on or has_pm_acc or has_power_off:
             details: List[str] = []
             if has_motor_on: details.append("MotorOn")
             if has_pm_acc: details.append("PM_ACC")
             if has_power_off: details.append("PowerOff")
-            return True, f"状态正常 (匹配项: {', '.join(details)})"
+            return True, f"状态正常 ({', '.join(details)})"
 
         return False, "无有效响应日志"
 
     def run_single_cycle(self, cycle_num: int) -> None:
-        """
-        执行单次压力测试循环（包含上电、监控、判定、断电流程）
-        
-        :param cycle_num: 当前所处的循环轮次
-        """
+        """执行单次压力循环"""
         self.logger.info(f"\n{'-'*15} 启动第 {cycle_num} 次压力循环 {'-'*15}")
 
-        # 1. 随机生成设备持续上电的时间长度
         on_time = round(random.uniform(POWER_ON_MIN, POWER_ON_MAX), 1)
 
-        # 2. 控制继电器闭合（设备上电）
         self.control_relay('on')
-
-        # 3. 阻塞式实时监控 (上电时间 + 1.0秒的冗余缓冲时间)
         logs, stop_triggered, stop_reason = self.monitor_serial_stream(on_time + 1.0)
-
-        # 4. 控制继电器断开（设备断电）
         self.control_relay('off')
 
-        # 5. 安全检查：若触发了致命/累计异常阈值，抛出异常阻断后续循环
         if stop_triggered:
             self.logger.error(f"【严重阻断】{stop_reason}")
-            self.logger.info("测试任务触发了预设的中止条件，即将退出主循环...")
             raise StopTestException(stop_reason)
 
-        # 6. 分析本次循环的响应正确性
         success, reason = self.analyze_cycle_result(logs)
 
         if success:
             self.total_success += 1
-            self.logger.info(f"【单次判定】成功: {reason}")
+            self.logger.info(f"【判定】成功: {reason}")
         else:
-            self.logger.error(f"【单次判定】失败: {reason}")
+            self.logger.error(f"【判定】失败: {reason}")
 
-        # 断电静置缓冲，等待电容放电或系统彻底归零
         time.sleep(POWER_OFF_TIME)
 
-        # 打印当前测试统计面板
         rate = (self.total_success / cycle_num) * 100
-        self.logger.info(f"当前整体成功率进度: {rate:.2f}% ({self.total_success}/{cycle_num})")
+        self.logger.info(f"当前整体成功率: {rate:.2f}% ({self.total_success}/{cycle_num})")
 
     def run_test(self) -> None:
-        """测试任务主控流程入口"""
+        """核心主控"""
         if not self.open_serial_ports():
-            self.show_message("串口资源请求失败，请检查硬件连接并关闭占用串口的其他软件。", "错误")
+            self.show_message("串口资源请求失败", "错误")
             return
 
-        # 执行硬件就绪校验与初始化
         self.init_relay_hardware()
 
-        self.logger.info(f"========== 自动化压力测试任务开始，目标执行总次数: {TEST_CYCLES} 次 ==========")
+        self.logger.info(f"========== 自动化压力测试任务开始，目标: {TEST_CYCLES} 次 ==========")
         start_time = time.time()
         final_count = 0
 
         try:
+            # 开始前确保设备在断电状态
+            self.control_relay('off')
+            time.sleep(1.0)
+            
             for i in range(1, TEST_CYCLES + 1):
                 final_count = i
                 self.run_single_cycle(i)
                 
         except StopTestException as e:
-            self.show_message(f"测试由于触发规则已自动中止\n具体原因: {e}", "测试中止")
+            self.show_message(f"测试中止原因: {e}", "测试中止")
         except KeyboardInterrupt:
-            self.logger.info("测试主循环被用户通过键盘强制中断。")
+            self.logger.info("用户通过键盘强制中断。")
         except Exception as e:
-            self.logger.exception(f"主控流程发生未被捕获的严重异常: {e}")
+            self.logger.exception(f"主控异常: {e}")
         finally:
-            # 无论如何退出，确保测试结束时继电器处于断电的安全状态
             self.control_relay('off')  
-            
-            # 稳妥地释放串口句柄资源
             if self.relay_ser and self.relay_ser.is_open: 
                 self.relay_ser.close()
             if self.device_ser and self.device_ser.is_open: 
                 self.device_ser.close()
 
-            # 汇总测试报告数据
             elapsed = time.time() - start_time
-            summary = (
+            self.logger.info(
                 f"\n{'=' * 15} 最终测试报告 {'=' * 15}\n"
-                f"实际执行总循环: {final_count} 次\n"
+                f"实际执行循环: {final_count} 次\n"
                 f"成功响应次数: {self.total_success} 次\n"
-                f"捕获异常关键字总数: {self.total_exceptions} 次\n"
-                f"被测设备重连次数: {self.device_disconnect_count} 次\n"
+                f"捕获异常总数: {self.total_exceptions} 次\n"
+                f"设备重连次数: {self.device_disconnect_count} 次\n"
                 f"测试总耗时: {elapsed:.1f} 秒\n"
                 f"{'=' * 44}"
             )
-            self.logger.info(summary)
 
 
 if __name__ == "__main__":

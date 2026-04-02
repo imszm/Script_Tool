@@ -12,7 +12,7 @@ from collections import deque
 from typing import Optional, Tuple, List, Dict, Deque
 
 # ================= 兼容性处理 =================
-# 增加对 win32api 的兼容性捕获，避免在非 Windows 环境下直接崩溃
+# 增加对 win32api 的兼容性捕获
 try:
     import win32api
     import win32con
@@ -196,9 +196,9 @@ class RelayTester:
         for p in ports:
             desc = p.description.lower()
             # 依赖于具体硬件的描述字段特征进行区分
-            if "11" in desc:
+            if "USB-SERIAL CH340" in desc:
                 relay_port = p.device
-            elif "14" in desc:
+            elif "Silicon Labs CP210x USB to UART Bridge" in desc:
                 device_port = p.device
 
         self.log(f"检测结果 -> 继电器: {relay_port} | 通信线: {device_port}")
