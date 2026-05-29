@@ -1,0 +1,39 @@
+[11:27:26.396784] --->
+[32m[I/pms] pm_task_lock[0m
+[32m[I/pms] pm_alarm, alm_cnt: 73[0m
+[32m[I/pms] pm_thread, recved: 0x8[0m
+[32m[I/pms] pm_event, evt_cnt: 73[0m
+[32m[I/voice] voice_msg num: 9[0m
+[11:27:32.457198] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[11:27:37.004848] --->
+[32m[I/voice] voice_msg num: 9[0m
+[11:27:43.065723] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[11:27:52.773233] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/pms] pm_task_unlock[0m
+[11:28:01.686324] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[11:28:13.892571] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[11:28:19.801017] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[11:28:25.032655] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[11:28:27.487592] --->
+[32m[I/pms] pm_task_lock[0m
+[32m[I/pms] pm_alarm, alm_cnt: 74[0m
+[32m[I/pms] pm_thread, recved: 0x8[0m
+[32m[I/pms] pm_event, evt_cnt: 74[0m
+[11:28:30.540367] --->
+[32m[I/ui] ui_switch_key suspend[0m
+[32m[I/voice] voice_msg num: 0[0m
+[32m[I/pms] pm_task_unlock[0m

@@ -1,0 +1,1 @@
+[2026-04-16 19:53:08] ERROR    串口打开异常: could not open port 'COM5': PermissionError(13, '拒绝访问。', None, 5)

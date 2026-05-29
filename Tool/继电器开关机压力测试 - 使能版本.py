@@ -25,7 +25,7 @@ SERIAL_TIMEOUT: float = 0.1       # 串口读取超时时间（秒）
 TEST_CYCLES: int = 10000          # 测试总循环次数
 POWER_ON_MIN: float = 3.0         # 最小供电时间（秒）
 POWER_ON_MAX: float = 4.0         # 最大供电时间（秒）
-POWER_OFF_TIME: float = 1.0       # 断电等待时间（秒）
+POWER_OFF_TIME: float = 3.0       # 断电等待时间（秒）
 DEVICE_RETRY_DELAY: float = 3.0   # 设备串口重连等待时间（秒）
 
 # ================= 日志配置 =================
