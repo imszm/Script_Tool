@@ -91,13 +91,16 @@ frequency_bug_timestamps: Dict[str, List[float]] = {
 }
 # =============================================
 
-# 动作时间配置
-NFC_LOW_STAY: float  = 2.1   # NFC最低点停留时间（秒）
-NFC_HIGH_STAY: float = 3.5   # NFC最高点停留时间（秒）
+# ========== 动作时间配置 ==========
+# 下压停留时间按动作意图分开设置，互不影响
+NFC_LOW_STAY_ON: float  = 2.1   # 执行"开机"动作时，NFC 最低点停留时间（秒）
+NFC_LOW_STAY_OFF: float = 0.5   # 执行"关机"动作时，NFC 最低点停留时间（秒）
+NFC_HIGH_STAY: float    = 3.5   # NFC 最高点停留时间（秒）
 
 # ========== 路径与全局状态配置 ==========
-DESKTOP_PATH: str    = os.path.join(os.path.expanduser("~"), "Desktop")
-CURRENT_RUN_DIR: str = os.path.join(DESKTOP_PATH,
+# 日志统一存放至 C 盘专属目录；若目录不存在，setup_logging() 会自动创建
+BASE_LOG_DIR: str    = r"C:\NFC_Test_Logs"
+CURRENT_RUN_DIR: str = os.path.join(BASE_LOG_DIR,
                                     f"NFC_Test_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}")
 RAW_LOG_FILE: str    = os.path.join(CURRENT_RUN_DIR, "raw_stream.log")
 
@@ -123,8 +126,9 @@ logger: logging.Logger = logging.getLogger("NFC_Stress_Test")
 
 def setup_logging() -> None:
     """初始化 logging 模块，配置控制台与文件双输出"""
-    if not os.path.exists(CURRENT_RUN_DIR):
-        os.makedirs(CURRENT_RUN_DIR)
+    # 自动创建父目录和本次运行子目录（exist_ok=True 保证目录已存在时不报错）
+    os.makedirs(BASE_LOG_DIR, exist_ok=True)
+    os.makedirs(CURRENT_RUN_DIR, exist_ok=True)
 
     logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -157,7 +161,7 @@ def log_listener() -> None:
     1. 实时抓取串口数据并写入全量日志
     2. 无视换行符，直接存入本轮测试专属 Buffer
     3. 维护滚动窗口，实时监控「立即触发型」致命关键字（模糊正则匹配）
-    4. 【新增】频率触发型关键字：在滑动时间窗口内命中次数达到阈值才触发
+    4. 频率触发型关键字：在滑动时间窗口内命中次数达到阈值才触发
     """
     global log_serial, log_listener_running, critical_bug_msg, rolling_bug_buffer
     log_listener_running = True
@@ -272,11 +276,19 @@ def servo_send(cmd: str) -> bool:
     return False
 
 
-def nfc_move(side: str) -> None:
-    """NFC移动逻辑，使用 Event.wait 代替 sleep 使得异常发生时能立即中断"""
+def nfc_move(side: str, target: str = "开机") -> None:
+    """
+    NFC移动逻辑，使用 Event.wait 代替 sleep 使得异常发生时能立即中断。
+
+    side   : "low"  → 下压扫卡；"high" → 抬起复位
+    target : 本次动作意图 —— "开机" 使用 NFC_LOW_STAY_ON（2.1 s）
+                              "关机" 使用 NFC_LOW_STAY_OFF（0.5 s）
+             仅在 side == "low" 时生效，side == "high" 时忽略此参数
+    """
     if side == "low":
         servo_send("#000P2500T1000!")
-        critical_bug_event.wait(1.0 + NFC_LOW_STAY)
+        stay = NFC_LOW_STAY_ON if target == "开机" else NFC_LOW_STAY_OFF
+        critical_bug_event.wait(1.0 + stay)
     else:
         servo_send("#000P0500T1000!")
         critical_bug_event.wait(1.0 + NFC_HIGH_STAY)
@@ -336,8 +348,8 @@ def run_test(test_num: int) -> None:
     with log_lock:
         log_text_buffer.clear()
 
-    # 下压扫NFC → 抬起
-    nfc_move("low")
+    # 下压扫NFC → 抬起（按 target_status 选择对应停留时长）
+    nfc_move("low", target_status)
 
     if critical_bug_event.is_set():
         return
