@@ -47,3 +47,12 @@ Tool/Test_Logs/
 *_error_*.txt
 *_full_*.txt
 *_summary_*.txt
+
+# === Log and Test Output Files (auto-added by git_sync.bat) ===
+Tool/logs/
+Tool/Test_Logs/
+*.log
+*_raw_*.txt
+*_error_*.txt
+*_full_*.txt
+*_summary_*.txt
