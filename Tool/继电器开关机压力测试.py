@@ -1,49 +1,48 @@
 # -*- coding: utf-8 -*-
 """
-继电器开关机压力测试脚本 - 优化版
+继电器开关机压力测试脚本 - v3 优化版
 
-【本次修复的关键问题】
+【本次修复的问题 —— 针对「第1次即失败」日志的分析】
 ────────────────────────────────────────────────────────────────────────
-  第 804 次循环失败是测试脚本 BUG 引发的误判（设备端完全正常），共 3 处缺陷：
+  [BUG-4] 失败时强制断电，导致现场丢失（直接致命）
+    原代码逻辑（run_single_cycle）：
+      1. control_relay('on')    ← 上电
+      2. monitor_serial_stream() ← 监听
+      3. control_relay('off')   ← 【无条件先关！】← BUG 所在
+      4. if is_success: ...
+         else: raise StopTestException()  ← 此时设备已经断电，现场全无
 
-  [BUG-1] 关键字拼写错误（直接致命）
-    原配置: "uipmacc:1:acc1:on0"
-    正配置: "ui_pm_acc:1:acc1:on0"
-    原因：关键字去掉了下划线，但实际日志 "[I/ui] ui_pm_acc: 1:acc 1:on 0"
-          经 .replace(" ", "") 后保留下划线变为 "ui_pm_acc:1:acc1:on0"，
-          导致该关键字【永远不可能命中】。
+    修复：只在 is_success=True 时调用 control_relay('off')，
+         失败时保持继电器闭合，设备持续上电，供现场排查。
 
-  [BUG-2] 成功关键字值不匹配（直接致命）
-    原配置: "voice_msgnum:0"
-    正配置: "voice_msgnum:"（前缀匹配，匹配任意数量）
-    原因：实际日志始终输出 "voice_msg num: 1"，去空格后为 "voice_msgnum:1"，
-          精确匹配 ":0" 导致该关键字也【永远不可能命中】。
+  [BUG-5] 缺乏零数据预判（无法区分「硬件断路」与「设备启动失败」）
+    上次失败日志中，5s 监听窗口内【零字节】来自 COM13，说明串口连接
+    本身有问题（接线、端口识别错误等），而非设备启动失败。
+    原脚本无法区分这两种情况，统一报"疑似启动挂死"，误导排查方向。
 
-  [BUG-3] UART 日志撕裂（概率性触发，放大了上述两个 BUG 的危害）
-    在第 804 次，RTOS 的 voice 线程与 ui 线程发生了字节级交织撕裂：
-      802、803次撕裂: "[I/voic[I/ui] refesh_cache"（voice 行被撕，motor 行正常）
-      804次撕裂:      "[I/motor] mot[I/ui] refesh_cache"（motor 行被撕，voice 行正常）
-    因此 804 次的 motorpoweron / poweron 也无法命中。
+    修复：区分零数据故障和关键字未命中故障，给出针对性诊断提示。
 
-  如果 BUG-1 或 BUG-2 任一已修复，第 804 次即可通过，因为另一关键字在 motor 行
-  被撕裂前已经匹配成功（ui_pm_acc 和 voice_msg 均出现在 motor 上电日志之前）。
+  [关于「继电器逻辑是否反了」的判断]
+    根据日志：19:07:01 发送 OFF 后设备断电（用户确认"继电器直接关了，
+    导致设备也关了"）。这说明 0x4F→断电、0x50→上电 的逻辑是正确的，
+    继电器并未反接。
+    但为防止后续更换继电器模块出现极性问题，本版新增 RELAY_CMD_ON /
+    RELAY_CMD_OFF 显式配置，两个字节互换即可适配极性相反的模块。
 
-【本版本的优化点】
+【新增功能】
 ────────────────────────────────────────────────────────────────────────
-  1. 修复 BUG-1/BUG-2 的关键字配置
-  2. 新增早期启动可靠信号关键字（出现在多线程竞争之前，几乎不会被撕裂）
-  3. 新增【滑动拼接缓冲区】机制：将监听窗口内收到的所有行的干净文本滚动拼接，
-     当关键字恰好被 readline() 切在两次读取边界时仍可命中（对字节级撕裂无效，
-     但可防止高波特率下超时截断的情况）
-  4. 成功命中来源区分日志（逐行命中 vs. 缓冲区容错命中）
-  5. 其他可读性与注释改善
+  1. 修复 BUG-4：失败时不断电，保留现场
+  2. 修复 BUG-5：区分零数据 vs 关键字未命中，给出精准诊断建议
+  3. 新增 verify_serial_connectivity()：压测开始前上电一次，确认能收到
+     串口数据，零数据则中止，彻底避免「带着硬件故障跑压测」的盲跑
+  4. 新增 RELAY_CMD_ON / RELAY_CMD_OFF 配置项，一键适配不同极性的继电器
+  5. 监听窗口内超过 NO_DATA_WARNING_SECS 秒无数据，立即触发预警日志
 """
 
 import serial
 import serial.tools.list_ports
 import time
 import datetime
-import sys
 import re
 import os
 import logging
@@ -64,10 +63,25 @@ DEVICE_BAUDRATE: int = 115200
 SERIAL_TIMEOUT: float = 0.1
 TEST_CYCLES: int = 200000
 
-POWER_ON_TIME: float = 5.0       # 继电器上电并保持监听的固定时长（秒）
-POWER_OFF_TIME: float = 5.0      # 继电器断电复位，给电机控制器电容放电的固定时长（秒）
-
+POWER_ON_TIME: float = 5.0        # 继电器上电并保持监听的固定时长（秒）
+POWER_OFF_TIME: float = 5.0       # 继电器断电复位，给电机控制器电容放电的固定时长（秒）
 DEVICE_RETRY_DELAY: float = 3.0
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 继电器指令字节配置
+# 默认: 0x50('P') = 闭合上电，0x4F('O') = 断开断电
+# 若发现 ON 指令反而断电（模块极性相反），将两个值互换即可：
+#   RELAY_CMD_ON  = 0x4F
+#   RELAY_CMD_OFF = 0x50
+# ─────────────────────────────────────────────────────────────────────────────
+RELAY_CMD_ON:  int = 0x50
+RELAY_CMD_OFF: int = 0x4F
+
+# 上电后 N 秒内仍未收到任何串口字节 → 触发预警日志
+NO_DATA_WARNING_SECS: float = 2.5
+
+# 压测正式开始前的串口连通性验证：等待首字节数据的最长超时（秒）
+CONNECTIVITY_VERIFY_TIMEOUT: float = 8.0
 
 # ================= 日志配置 =================
 LOG_DIR_NAME: str = "Test_Logs"
@@ -96,41 +110,26 @@ CRITICAL_CONFIG: Dict[str, Union[str, float, int]] = {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 成功判定关键字列表
-#
-# 匹配规则：对每行原始文本执行 .lower().replace(" ", "") 后做子串查找。
-# 因此关键字中【保留】原始日志中存在的下划线，【去掉】原始日志中的空格。
-#
-# 【已修复】
-#   "uipmacc:1:acc1:on0"  →  "ui_pm_acc:1:acc1:on0"   (BUG-1：补回下划线)
-#   "voice_msgnum:0"      →  "voice_msgnum:"           (BUG-2：值不匹配改为前缀)
-#
-# 【新增】
-#   "exitsleep:acc_key1"  : 日志 "[I/ui] exit sleep: acc_key 1"，
-#                           出现在 motor/voice 多线程竞争之前，极少被撕裂
-#   "acc_cb,key_evt:1"   : 日志 "[I/gkey] acc_cb, key_evt: 1"，
-#                           ACC 按键事件，上电最早期信号
+# 成功判定关键字列表（v2 已修复下划线和前缀问题，此处延续）
 # ─────────────────────────────────────────────────────────────────────────────
 SUCCESS_KEYWORDS: List[str] = [
-    "motorpoweron",          # "[I/motor] motor power on..."
-    "poweron",               # 同上的子串，备用
-    "voice_msgnum:",         # 【已修复】原为 "voice_msgnum:0"，值不匹配改为前缀匹配
+    "motorpoweron",
+    "poweron",
+    "voice_msgnum:",         # 前缀匹配，兼容任意数量
     "threadoperatingsystem",
     "motor_svc_init",
-    "ui_pm_acc:1:acc1:on0",  # 【已修复】原为 "uipmacc:1:acc1:on0"，补回下划线
-    "exitsleep:acc_key1",    # 【新增】"[I/ui] exit sleep: acc_key 1"，早期可靠信号
-    "acc_cb,key_evt:1",      # 【新增】"[I/gkey] acc_cb, key_evt: 1"，启动最早信号
+    "ui_pm_acc:1:acc1:on0",  # 已修复：补回下划线
+    "exitsleep:acc_key1",    # 早期可靠信号
+    "acc_cb,key_evt:1",      # 启动最早信号
 ]
 
-# 滑动拼接缓冲区容量（字符数）
-# 用于应对极端场景：关键字被 readline() 恰好切在两次读取边界处
 CONCAT_BUFFER_MAX_LEN: int = 2048
 
 # =============================================================================
 
 
 class StopTestException(Exception):
-    """自定义异常类，用于在达到致命错误条件或重试超时时触发并停止测试"""
+    """自定义异常类，用于在达到致命错误条件时触发并停止测试"""
     pass
 
 
@@ -151,7 +150,6 @@ class RelayTester:
         self._init_logging()
 
     def _init_logging(self) -> None:
-        """初始化 logging 模块，配置控制台与多重文件输出结构"""
         base_path: str = os.path.dirname(os.path.abspath(__file__))
         self.log_dir_path: str = os.path.join(base_path, LOG_DIR_NAME)
 
@@ -205,7 +203,6 @@ class RelayTester:
         self.main_logger.info(f"日志系统初始化完成，存储路径: {self.log_dir_path}")
 
     def log(self, message: str, show: bool = True, is_exception: bool = False) -> None:
-        """核心日志分发器，依据级别写入对应的日志文件"""
         if is_exception:
             self.error_logger.error(message)
             if show:
@@ -213,17 +210,14 @@ class RelayTester:
         else:
             if show:
                 self.main_logger.info(message)
-
         self.raw_logger.info(f"[TEST_ACTION] {message}")
 
     def log_raw_data(self, raw_text: str) -> None:
-        """记录去除终端控制字符后的干净串口流数据"""
         clean_text: str = self.ansi_escape.sub('', raw_text).strip('\r\n')
         if clean_text:
             self.raw_logger.info(clean_text)
 
     def show_message(self, message: str, title: str = "提示") -> None:
-        """操作系统层级的弹窗提示处理"""
         if HAS_WIN32:
             try:
                 time_str: str = datetime.datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
@@ -236,10 +230,7 @@ class RelayTester:
             self.main_logger.warning(f"[{title}] {message}")
 
     def detect_ports(self) -> Tuple[Optional[str], Optional[str]]:
-        """根据芯片特征名称分配串口号，提升容错率"""
-        ports: List[serial.tools.list_ports_common.ListPortInfo] = list(
-            serial.tools.list_ports.comports()
-        )
+        ports = list(serial.tools.list_ports.comports())
         relay_port: Optional[str] = None
         device_port: Optional[str] = None
 
@@ -257,7 +248,6 @@ class RelayTester:
         return device_port, relay_port
 
     def open_serial_ports(self) -> bool:
-        """初始化并开启检测到的串口资源"""
         self.device_port, self.relay_port = self.detect_ports()
         if not self.device_port or not self.relay_port:
             self.log("未检测到完整的硬件设备，无法启动测试流", is_exception=True)
@@ -276,7 +266,6 @@ class RelayTester:
             return False
 
     def try_reconnect_device(self) -> None:
-        """执行设备串口的断线重连恢复逻辑"""
         self.device_disconnect_count += 1
         if self.device_ser:
             try:
@@ -296,7 +285,6 @@ class RelayTester:
                 self.log(f"重连硬件失败: {e}", is_exception=True)
 
     def flush_device_input_buffer(self) -> None:
-        """清空接收缓冲区以防止历史脏数据影响本次通电测试"""
         if self.device_ser and self.device_ser.is_open:
             try:
                 self.device_ser.reset_input_buffer()
@@ -305,12 +293,18 @@ class RelayTester:
                 self.log(f"清空串口缓冲区失败: {e}", is_exception=True)
 
     def control_relay(self, action: str) -> None:
-        """向指定的继电器发送控制指令"""
+        """
+        向继电器发送控制指令。
+        ON  → 发送 RELAY_CMD_ON  字节（默认 0x50）→ 继电器闭合，设备上电
+        OFF → 发送 RELAY_CMD_OFF 字节（默认 0x4F）→ 继电器断开，设备断电
+
+        如果发现 ON 反而断电，只需在配置区将 RELAY_CMD_ON/RELAY_CMD_OFF 互换。
+        """
         if not self.relay_ser or not self.relay_ser.is_open:
             return
 
         try:
-            cmd: bytes = bytes([0x50]) if action == 'on' else bytes([0x4F])
+            cmd: bytes = bytes([RELAY_CMD_ON]) if action == 'on' else bytes([RELAY_CMD_OFF])
             self.relay_ser.write(cmd)
             time.sleep(0.1)
             self.relay_ser.read_all()
@@ -324,7 +318,6 @@ class RelayTester:
         window_seconds: float,
         threshold_count: int
     ) -> bool:
-        """基于滑动时间窗的频率限制器"""
         now: float = time.time()
         timestamps_deque.append(now)
         while timestamps_deque and timestamps_deque[0] < now - window_seconds:
@@ -332,7 +325,6 @@ class RelayTester:
         return len(timestamps_deque) >= threshold_count
 
     def process_log_line(self, line: str) -> Tuple[bool, Optional[str]]:
-        """分析数据流中的单行记录，检测错误及信息关键字配置"""
         clean_line: str = self.ansi_escape.sub('', line)
         line_check: str = clean_line.lower().replace(" ", "")
 
@@ -371,10 +363,6 @@ class RelayTester:
         source_label: str,
         original_line: str
     ) -> Optional[str]:
-        """
-        在给定文本中搜索全部成功关键字，返回命中的第一个关键字，否则返回 None。
-        source_label 用于区分是逐行命中还是缓冲区容错命中。
-        """
         for kw in SUCCESS_KEYWORDS:
             if kw in text_to_search:
                 self.log(
@@ -390,22 +378,18 @@ class RelayTester:
         stop_on_success: bool = False
     ) -> Tuple[str, bool, Optional[str], bool]:
         """
-        阻塞监听来自 CP210x 的串口流数据以判断开机状态。
+        阻塞监听来自 CP210x 的串口流数据。
 
-        双层成功检测机制：
-          1. 逐行精确匹配：对每一行去 ANSI/去空格后直接搜索关键字（原有逻辑）
-          2. 滑动拼接缓冲区容错匹配（新增）：维护本次监听窗口内所有行的拼接文本，
-             应对极端场景下关键字被 readline() 切在两次读取边界的情况
-
-        注意：对于 RTOS 字节级 UART 撕裂（两线程输出字节交织在同一行），
-        此缓冲区无法恢复被其他线程内容打断的关键字片段，
-        因此应通过配置多个早期启动关键字（在撕裂高发期之前出现）来覆盖。
+        新增：
+          - 零数据预警：上电后 NO_DATA_WARNING_SECS 秒内无任何字节 → 打印预警日志
+          - 双层成功检测（逐行 + 滑动拼接缓冲区容错）
         """
         end_time: float = time.time() + duration
+        monitor_start: float = time.time()
         collected_logs: List[str] = []
         is_success_detected: bool = False
-
-        # 滑动拼接缓冲区（本次监听窗口内累积，每轮新开，不跨周期）
+        any_data_received: bool = False
+        no_data_warned: bool = False
         concat_buffer: str = ""
 
         while time.time() < end_time:
@@ -415,6 +399,7 @@ class RelayTester:
                     if not raw_bytes:
                         continue
 
+                    any_data_received = True
                     decoded_line: str = raw_bytes.decode('gb2312', errors='replace')
                     self.log_raw_data(decoded_line)
 
@@ -424,35 +409,29 @@ class RelayTester:
 
                     collected_logs.append(stripped_line)
 
-                    # 错误与致命条件检测（保持逐行，精确性更重要）
                     should_stop, reason = self.process_log_line(stripped_line)
                     if should_stop:
                         return "\n".join(collected_logs), True, reason, False
 
                     if not is_success_detected:
-                        # 清理当前行：去 ANSI、转小写、去空格
                         clean_for_match: str = (
                             self.ansi_escape.sub('', stripped_line)
                             .lower()
                             .replace(" ", "")
                         )
 
-                        # ── 第一层：逐行精确匹配 ──────────────────────────────
                         matched_kw = self._check_success_keywords(
                             clean_for_match, "逐行", stripped_line
                         )
 
-                        # ── 第二层：滑动拼接缓冲区容错匹配 ─────────────────────
                         if not matched_kw:
                             concat_buffer += clean_for_match
                             if len(concat_buffer) > CONCAT_BUFFER_MAX_LEN:
                                 concat_buffer = concat_buffer[-CONCAT_BUFFER_MAX_LEN:]
-
                             matched_kw = self._check_success_keywords(
                                 concat_buffer, "缓冲区容错", stripped_line
                             )
                         else:
-                            # 逐行已命中，缓冲区也同步更新
                             concat_buffer += clean_for_match
                             if len(concat_buffer) > CONCAT_BUFFER_MAX_LEN:
                                 concat_buffer = concat_buffer[-CONCAT_BUFFER_MAX_LEN:]
@@ -461,8 +440,19 @@ class RelayTester:
                             is_success_detected = True
                             if stop_on_success:
                                 return "\n".join(collected_logs), False, None, True
-                            # stop_on_success=False 时继续监听至 duration 结束
                 else:
+                    # ── 零数据预警 ──────────────────────────────────────────
+                    if (not any_data_received
+                            and not no_data_warned
+                            and time.time() - monitor_start >= NO_DATA_WARNING_SECS):
+                        self.log(
+                            f"[串口静默预警] 上电 {NO_DATA_WARNING_SECS:.1f}s 后"
+                            f" {self.device_port} 仍未收到任何字节。"
+                            f"请检查: ①串口接线是否松动 ②设备UART-TX是否接通"
+                            f" ③串口号 {self.device_port} 是否正确",
+                            is_exception=True
+                        )
+                        no_data_warned = True
                     time.sleep(0.005)
 
             except serial.SerialException:
@@ -475,70 +465,156 @@ class RelayTester:
 
         return "\n".join(collected_logs), False, None, is_success_detected
 
+    def verify_serial_connectivity(self) -> bool:
+        """
+        压测正式开始前的串口连通性预验证。
+
+        上电一次，等待最多 CONNECTIVITY_VERIFY_TIMEOUT 秒，确认能从设备串口
+        收到至少一个字节数据。零数据 → 中止测试，避免带着硬件故障空转压测。
+        """
+        self.log(
+            f"串口连通性预验证: 上电，等待最多 {CONNECTIVITY_VERIFY_TIMEOUT:.0f}s "
+            f"确认 {self.device_port} 能收到数据..."
+        )
+        self.control_relay('on')
+        start = time.time()
+        received = False
+
+        try:
+            deadline = time.time() + CONNECTIVITY_VERIFY_TIMEOUT
+            while time.time() < deadline:
+                if (self.device_ser
+                        and self.device_ser.is_open
+                        and self.device_ser.in_waiting > 0):
+                    received = True
+                    elapsed = time.time() - start
+                    self.log(
+                        f"连通性验证通过: 上电 {elapsed:.2f}s 后"
+                        f"收到首字节数据，串口链路正常"
+                    )
+                    break
+                time.sleep(0.05)
+        except Exception as e:
+            self.log(f"连通性验证过程异常: {e}", is_exception=True)
+
+        # 无论结果如何，断电复位
+        self.control_relay('off')
+
+        if not received:
+            self.log(
+                f"[连通性验证失败] 上电 {CONNECTIVITY_VERIFY_TIMEOUT:.0f}s 后"
+                f" {self.device_port} 仍未收到任何数据。\n"
+                f"  可能原因:\n"
+                f"    ① 串口接线问题（TX/RX 线松动或未接）\n"
+                f"    ② 串口号识别错误（当前识别为 {self.device_port}，"
+                f"请确认是否正确）\n"
+                f"    ③ 继电器极性问题（ON 指令实际断电）——"
+                f"可尝试对调 RELAY_CMD_ON / RELAY_CMD_OFF\n"
+                f"  压力测试中止，请排查后重新启动。",
+                is_exception=True
+            )
+            return False
+
+        # 等待电容放电
+        self.log(f"等待 {POWER_OFF_TIME:.0f}s 电容放电后进入压测循环...")
+        time.sleep(POWER_OFF_TIME)
+        self.flush_device_input_buffer()
+        return True
+
     def run_single_cycle(self, cycle_num: int) -> None:
-        """主调测逻辑：执行一次完整的断电/上电测试"""
+        """
+        执行一次完整的断电/上电测试。
+
+        【核心修复 BUG-4】
+        relay OFF 指令只在测试通过（is_success=True）时发送。
+        测试失败时，继电器保持闭合，设备持续上电，供现场排查。
+        """
         self.log(
             f"\n--- [流程标记] 第 {cycle_num} 次压力循环 "
             f"(固定上电监听: {POWER_ON_TIME}s, 断电时长: {POWER_OFF_TIME}s) ---"
         )
 
         self.flush_device_input_buffer()
-
         self.control_relay('on')
         t0: float = time.time()
 
-        # stop_on_success=False 强制执行固定时间监听，确保捕获完整上电日志
         logs, stop_triggered, stop_reason, is_success = self.monitor_serial_stream(
             POWER_ON_TIME, stop_on_success=False
         )
 
         boot_time: float = time.time() - t0
 
-        self.control_relay('off')
-
+        # ── 异常关键字触发阻断：保留上电现场 ────────────────────────────────
         if stop_triggered:
-            self.log(f"严重错误触发中断: {stop_reason}", is_exception=True)
-            raise StopTestException(stop_reason)
-
-        if is_success:
-            self.total_success += 1
-            self.log(f"单次结论: 测试通过 (固定监听周期结束，耗时: {boot_time:.2f}s)")
-        else:
             self.log(
-                f"单次结论: 测试失败 - 在固定的 {POWER_ON_TIME} 秒监听周期内，"
-                f"未能匹配到设备的有效开机回复，疑似启动挂死",
+                f"严重错误触发中断（设备保持上电以供现场排查）: {stop_reason}",
                 is_exception=True
             )
-            raise StopTestException(f"第 {cycle_num} 次系统循环发生开机验证失败")
+            raise StopTestException(stop_reason)
 
-        time.sleep(POWER_OFF_TIME)
+        # ── 成功路径：正常断电，进入下一个循环 ──────────────────────────────
+        if is_success:
+            self.control_relay('off')          # ← 只有成功时才断电
+            self.total_success += 1
+            self.log(f"单次结论: 测试通过 (固定监听周期结束，耗时: {boot_time:.2f}s)")
+            time.sleep(POWER_OFF_TIME)
+            rate: float = (self.total_success / cycle_num) * 100
+            self.log(
+                f"状态更新: 当前累计通过率为 {rate:.2f}% "
+                f"(总次数 {cycle_num}，成功 {self.total_success})",
+                show=True
+            )
+            return
 
-        rate: float = (self.total_success / cycle_num) * 100
+        # ── 失败路径：不断电，区分故障类型，给出针对性诊断 ──────────────────
+        # 注意：此处故意【不】调用 control_relay('off')
+        # 继电器保持闭合 → 设备持续上电 → 可立即排查现场
+
+        no_data = (len(logs.strip()) == 0)
+
+        if no_data:
+            fail_type = "零数据故障"
+            fail_detail = (
+                f"{POWER_ON_TIME}s 监听窗口内未从 {self.device_port} 收到任何字节\n"
+                f"  诊断建议:\n"
+                f"    ① 检查 CP210x 模块到设备 UART-TX 的接线是否断路\n"
+                f"    ② 确认 {self.device_port} 串口号是否被正确识别\n"
+                f"    ③ 若怀疑继电器极性反了，对调配置区"
+                f" RELAY_CMD_ON / RELAY_CMD_OFF 后重试"
+            )
+        else:
+            line_count = len(logs.splitlines())
+            fail_type = "关键字未命中"
+            fail_detail = (
+                f"收到 {line_count} 行串口数据但未匹配任何成功关键字\n"
+                f"  诊断建议:\n"
+                f"    ① 检查 SUCCESS_KEYWORDS 配置是否与实际日志格式匹配\n"
+                f"    ② 确认设备启动序列是否发生变化"
+            )
+
         self.log(
-            f"状态更新: 当前累计通过率为 {rate:.2f}% "
-            f"(总次数 {cycle_num}，成功 {self.total_success})",
-            show=True
+            f"单次结论: 测试失败 [{fail_type}] — {fail_detail}\n"
+            f"  【现场保留】继电器保持闭合，设备持续上电，请即时排查！",
+            is_exception=True
         )
+        raise StopTestException(f"第 {cycle_num} 次循环 [{fail_type}]: {fail_detail.splitlines()[0]}")
 
     def run_test(self) -> None:
-        """测试整体的启动装配器与异常捕获顶层"""
         if not self.open_serial_ports():
             self.show_message("通信串口建立连接失败，请检查线路及系统端口占用情况", "初始化失败")
             return
 
         self.log("开始部署并初始化压力测试流环境...")
 
-        self.log("系统初始重置(1/2): 执行一次通电预热")
-        self.control_relay('on')
-        time.sleep(3.0)
-
-        self.log("系统初始重置(2/2): 执行一次断电复位")
-        self.control_relay('off')
-
-        self.flush_device_input_buffer()
-
-        self.log("物理初始化完毕: 系统当前处于断电冷机状态，等待 2 秒进入压力跑机循环")
-        time.sleep(2.0)
+        # ── 串口连通性预验证（替代原来的 ON→3s→OFF 初始化序列）────────────
+        # 该步骤同时完成物理预热 + 验证串口链路是否通畅
+        if not self.verify_serial_connectivity():
+            self.show_message(
+                f"串口连通性验证失败，压力测试中止。\n"
+                f"请检查 {self.device_port} 的串口连接后重新启动。",
+                "测试中止"
+            )
+            return
 
         self.log(f"====== 压力测试正式启动 (目标执行总次数: {TEST_CYCLES}) ======")
         start_time: float = time.time()
@@ -548,16 +624,26 @@ class RelayTester:
             for i in range(1, TEST_CYCLES + 1):
                 cycle_count = i
                 self.run_single_cycle(i)
+
         except StopTestException as e:
+            self.log(
+                f"压力测试异常熔断。继电器当前状态: 保持闭合（设备仍处于上电状态）。\n"
+                f"请排查完毕后手动断电或重启脚本。"
+            )
             self.show_message(
-                f"测试机制保护启动以留存异常现场\n阻断原因: {e}",
+                f"测试异常停止，设备保持上电以供现场排查\n阻断原因: {e}",
                 "压力测试异常熔断"
             )
         except KeyboardInterrupt:
             self.log("收到外部键盘强行阻断信号 (Ctrl+C)，当前测试停止")
+            self.control_relay('off')
+            self.log("已手动断电")
         except Exception as e:
             self.main_logger.exception(f"不可预料的系统级别崩溃异常: {e}")
         finally:
+            # 注意：此处仅关闭串口句柄，不主动发送继电器指令。
+            # 正常结束时，最后一次 relay OFF 已在 run_single_cycle 中发送。
+            # 异常结束时，继电器保持上一状态（闭合），设备上电待排查。
             if self.relay_ser:
                 self.relay_ser.close()
             if self.device_ser:

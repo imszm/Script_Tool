@@ -151,7 +151,7 @@ class RelayTester:
 
         for p in ports:
             desc = p.description.lower()
-            if "4" in desc and "usb" in desc:  # 适配常见USB继电器描述
+            if "15" in desc and "usb" in desc:  # 适配常见USB继电器描述
                 r_port = p.device
             elif "cp210x" in desc or "ch340" in desc:  # 适配常见串口芯片
                 d_port = p.device
