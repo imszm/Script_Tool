@@ -12,9 +12,9 @@ import os
 from typing import Dict, List, Tuple, Optional
 
 # ========== 基础配置 ==========
-SERVO_PORT: str = "COM9"   # 舵机串口
+SERVO_PORT: str = "COM15"   # 舵机串口
 SERVO_BAUD: int = 115200   # 舵机波特率
-LOG_PORT: str   = "COM12"  # 日志串口
+LOG_PORT: str   = "COM21"  # 日志串口
 LOG_BAUD: int   = 115200   # 日志波特率
 TOTAL_TESTS: int = 10000   # 总测试次数
 INIT_DEVICE_STATUS: str = "关机"  # 初始状态
@@ -94,7 +94,7 @@ frequency_bug_timestamps: Dict[str, List[float]] = {
 # ========== 动作时间配置 ==========
 # 下压停留时间按动作意图分开设置，互不影响
 NFC_LOW_STAY_ON: float  = 2.1   # 执行"开机"动作时，NFC 最低点停留时间（秒）
-NFC_LOW_STAY_OFF: float = 0.5   # 执行"关机"动作时，NFC 最低点停留时间（秒）
+NFC_LOW_STAY_OFF: float = 2   # 执行"关机"动作时，NFC 最低点停留时间（秒）
 NFC_HIGH_STAY: float    = 3.5   # NFC 最高点停留时间（秒）
 
 # ========== 路径与全局状态配置 ==========

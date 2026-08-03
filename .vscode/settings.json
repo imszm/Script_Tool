@@ -4,6 +4,11 @@
             "path": "Tool/总线舵机NFC压力测试.py",
             "envManager": "ms-python.python:venv",
             "packageManager": "ms-python.python:pip"
+        },
+        {
+            "path": "R3系列总装测试工具/R3组装升级.py",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
         }
     ]
 }
