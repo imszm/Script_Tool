@@ -1264,8 +1264,8 @@ def interactive_mode(controller: MCBMotorController) -> None:
 # 主入口
 # ==========================================
 def main() -> None:
-    TARGET_COM_PORT = "COM17"
-    TARGET_DLL_PATH = r"C:\Users\szm21\Downloads\Script\libs_20260610\ppx_region.dll"
+    TARGET_COM_PORT = "COM27"
+    TARGET_DLL_PATH = r"C:\Users\szm21\Downloads\Script\R3_MCB白盒测试\ppx_region.dll"
 
     parser = argparse.ArgumentParser(description="MCB电机控制 - 全自动稳定性测试")
     parser.add_argument("--port", default=TARGET_COM_PORT, help="串口号")

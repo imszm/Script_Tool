@@ -12,87 +12,27 @@ __pycache__/
 *.pyc
 *.pyo
 
+# === Python Virtual Environment (新增) ===
+venv/
+.venv/
+env/
+.env
+
 # === Build Artifacts ===
 build/
 dist/
 *.spec
 
+# === IDE and Editor Settings (新增 Cursor/VSCode 配置) ===
+.cursor/
+.vscode/
+.idea/
+*.swp
+
 # === OS Metadata ===
 .DS_Store
 Thumbs.db
 desktop.ini
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
-# === Log and Test Output Files (auto-added by git_sync.bat) ===
-Tool/logs/
-Tool/Test_Logs/
-*.log
-*_raw_*.txt
-*_error_*.txt
-*_full_*.txt
-*_summary_*.txt
-
 # === Log and Test Output Files (auto-added by git_sync.bat) ===
 Tool/logs/
 Tool/Test_Logs/
