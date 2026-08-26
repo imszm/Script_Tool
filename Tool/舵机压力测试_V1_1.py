@@ -104,11 +104,19 @@ CURRENT_RUN_DIR: str = os.path.join(BASE_LOG_DIR,
                                     f"NFC_Test_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}")
 RAW_LOG_FILE: str    = os.path.join(CURRENT_RUN_DIR, "raw_stream.log")
 
+# RAW 原始日志是否按行加时间戳前缀，以及时间戳格式（精确到毫秒）
+RAW_LOG_ADD_TIMESTAMP: bool = True
+RAW_LOG_TS_FORMAT: str = "%Y-%m-%d %H:%M:%S.%f"  # 微秒格式，写入时会截断为毫秒
+
 # 内存缓冲区与并发锁（彻底摒弃时间戳，改用单轮清理机制）
 log_text_buffer: List[str] = []
 log_listener_running: bool = False
 log_serial: Optional[serial.Serial] = None
 log_lock: threading.Lock = threading.Lock()
+
+# RAW 日志按行打时间戳专用状态：是否正处于新一行的行首
+# —— 仅在 log_listener 线程内读写，无需加锁（同 frequency_bug_timestamps 的约定）
+raw_log_at_line_start: bool = True
 
 # 致命异常事件与记录（使用滚动字符串防止被 Chunk 截断）
 rolling_bug_buffer: str = ""
@@ -153,6 +161,43 @@ def strip_ansi(text: str) -> str:
     return ANSI_ESCAPE.sub('', text)
 
 
+def stamp_raw_chunk(chunk: str) -> str:
+    """
+    给即将写入 RAW_LOG_FILE 的原始数据按"行"加时间戳前缀。
+
+    背景：串口是字节流，log_serial.read() 每次读到的 chunk 可能是半行、
+    恰好一行，也可能是好几行拼在一起，边界完全不可预测。如果简单粗暴地
+    在每次 read() 的内容前面塞一个时间戳，会出现两种问题：
+      1. 一行内容被从中间打断，插入一段时间戳；
+      2. 一个 chunk 里有好几行时，只有最前面才有时间戳，后面的行反而没有。
+
+    做法：用全局变量 raw_log_at_line_start 记住"上一次写完的内容是否刚好
+    在行尾"，只有真正处于行首时才插入时间戳，这样即使一行内容被拆到
+    两次甚至多次 read() 里，也只会在这一行真正开始的地方打一个时间戳。
+
+    注意：本函数只影响落盘到 RAW_LOG_FILE 的文本，不会修改传入的 chunk
+    本身（原始 clean_chunk 仍会按原样进入 log_text_buffer / rolling_bug_buffer /
+    频率触发检测），因此不影响关键字检测和开关机状态判断逻辑。
+    """
+    global raw_log_at_line_start
+    if not RAW_LOG_ADD_TIMESTAMP or not chunk:
+        return chunk
+
+    # 同一个 chunk 内共用一个时间戳——它们本就是同一次 read() 一起到达的，
+    # 逐行单独取时刻反而是虚假的精度。
+    prefix = f"[{datetime.datetime.now().strftime(RAW_LOG_TS_FORMAT)[:-3]}] "
+
+    parts: List[str] = []
+    for line in chunk.splitlines(keepends=True):
+        if raw_log_at_line_start:
+            parts.append(prefix)
+        parts.append(line)
+        # 只有以 \n 或 \r 结尾的行，才代表下一段内容会另起一行
+        raw_log_at_line_start = line.endswith(('\n', '\r'))
+
+    return "".join(parts)
+
+
 # ========== 日志监听与异常捕获 ==========
 def log_listener() -> None:
     """
@@ -193,8 +238,8 @@ def log_listener() -> None:
                     decoded = raw_data.decode('utf-8', errors='replace')
                     clean_chunk = strip_ansi(decoded)
 
-                    # 实时落盘原始数据
-                    raw_file.write(clean_chunk)
+                    # 实时落盘原始数据（按行加时间戳，方便和舵机动作时间点对照）
+                    raw_file.write(stamp_raw_chunk(clean_chunk))
                     raw_file.flush()
 
                     # 1. 存入供主线程状态判断的缓冲区（无视换行，保留原貌）
