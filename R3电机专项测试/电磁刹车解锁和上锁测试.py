@@ -1,28 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-解锁上锁成功率测试
-============================
-由原两个脚本合并而来：
-  1) 被测电机_解锁上锁成功率测试.py —— IPC服务器，响应解锁/上锁，统计成功率
-  2) 负载电机_解锁上锁成功率测试.py —— IPC客户端，推行模式运行，发起解锁/上锁请求
-
-合并后：本脚本以两个线程分别运行"被测电机"与"负载电机"逻辑，
-        通过 threading.Event 保证先完成服务器监听、再发起客户端连接，
-        通信协议、每轮时序、功能与输出结果与原两个脚本保持一致。
-
-全程完整日志自动保存到脚本所在目录的 log 文件夹：
-  log/解锁上锁成功率测试_YYYYMMDD_HHMMSS.log
-
-过温保护（暂停/自动恢复）：
-  - 任一侧 MOSFET/电机温度超过阈值(MOS_TEMP_LIMIT/MOTOR_TEMP_LIMIT)时，
-    双方立即停止电机并暂停当前测试流程；
-  - 冷却期间双方每2秒互相同步温度，待温度均降至恢复阈值
-    (MOS_TEMP_RECOVER/MOTOR_TEMP_RECOVER)以下后自动恢复继续测试；
-  - 收到对端停止/超温信号时立即下发停转指令，防止对端已停止而本端电机持续运转；
-  - 对端线程退出（如锁存故障终止）时，本端所有等待循环立即停止电机并同步退出。
-"""
-
 import ctypes
 import serial
 import time
@@ -39,8 +16,8 @@ from collections import deque
 
 # ========== 配置区 ==========
 MAX_CYCLES = 1000
-TESTED_COM_PORT = "COM10"   # 被测电机串口（原被测脚本）
-LOAD_COM_PORT = "COM28"     # 负载电机串口（原负载脚本）
+TESTED_COM_PORT = "COM28"   # 被测电机串口（原被测脚本）
+LOAD_COM_PORT = "COM11"     # 负载电机串口（原负载脚本）
 BAUD_RATE = 460800
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -773,7 +750,6 @@ class TestedMotorRunner(PeerRunnerBase):
             print("上锁: 0/0")
         print("=" * 40)
 
-        self.stop_motor_safely()  # 退出前确保电机停转
         self.close_motor()
         if self.sock:
             self.sock.close()
@@ -1064,7 +1040,6 @@ class LoadMotorRunner(PeerRunnerBase):
                 continue
 
         print(f"\n全部 {cycle_count} 轮执行完毕（或程序被终止）")
-        self.stop_motor_safely()  # 退出前确保电机停转
         self.close_motor()
         if self.sock:
             self.sock.close()

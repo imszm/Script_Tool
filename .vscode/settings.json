@@ -9,6 +9,11 @@
             "path": "R3系列总装测试工具/R3组装升级.py",
             "envManager": "ms-python.python:venv",
             "packageManager": "ms-python.python:pip"
+        },
+        {
+            "path": "Tool/代步车车速计算器.py",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
         }
     ]
 }
